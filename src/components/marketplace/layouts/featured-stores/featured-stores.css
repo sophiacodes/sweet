@@ -1,0 +1,34 @@
+.featured {
+    width: 100%;
+    box-sizing: border-box;
+}
+.featured-stores {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    margin: 3em 0
+}
+.featured-store {
+    display: inline-block;
+    margin: 0 2.5em;
+}
+.feature-store-name {
+    text-align: center;
+    margin: 1em 0;
+    text-decoration: none;
+}
+.featured-store a {
+    display: block;
+    outline: none;
+    text-decoration: none;
+}
+.featured-store a:link h3,
+.featured-store a:visited h3,
+.featured-store a:active h3 {
+    text-decoration: none;
+    color: #000000;
+}
+.featured-store a:hover h3 {
+    text-decoration: underline;
+    color: #000000;
+}

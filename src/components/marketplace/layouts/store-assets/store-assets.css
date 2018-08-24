@@ -1,0 +1,34 @@
+.assets-listings {
+    width: 100%;
+    box-sizing: border-box;
+}
+.store-assets { 
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    margin: 3em 0
+}
+.store-asset {
+    display: inline-block;
+    margin: 0 2.5em;
+}
+.store-asset .asset-name{
+    text-align: center;
+    margin: 1em 0;
+    text-decoration: none;
+}
+.store-asset a {
+    display: block;
+    outline: none;
+    text-decoration: none;
+}
+.store-asset a:link h3,
+.store-asset a:visited h3,
+.store-asset a:active h3 {
+    text-decoration: none;
+    color: #000000;
+}
+.store-asset a:hover h3 {
+    text-decoration: underline;
+    color: #000000;
+}

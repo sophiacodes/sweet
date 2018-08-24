@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'Lobster-Two-Regular';
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/Lobster-Two/LobsterTwo-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lobster-Two-Bold';
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/Lobster-Two/LobsterTwo-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lobster-Two-BoldItalic';
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/Lobster-Two/LobsterTwo-BoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lobster-Two-Italic';
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/Lobster-Two/LobsterTwo-Italic.ttf') format('truetype');
+}

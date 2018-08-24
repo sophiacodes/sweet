@@ -1,0 +1,24 @@
+.footer {
+    padding: 2em;
+    text-align: right;
+}
+.footer .copy {
+    color: #586069;
+    text-align: left;
+    font-size: .75em;
+    top: 7px;
+    position: relative;
+}
+.footer .mini-logo {
+    opacity: 0.2;
+    font-family: 'Lobster';
+    text-align: center;
+    font-size: 1.5em;
+}
+.footer .powered-by {
+    color: #ff00cb;
+    font-family: 'Indie-Flower';
+    text-align: right;
+    top: 7px;
+    position: relative;
+}

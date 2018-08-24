@@ -1,0 +1,27 @@
+.hero {
+    background-color: #2f363d;
+    color: #ffffff;
+    text-align: center;
+    font-family: 'Work Sans Extra Light' !important;
+    font-size: 2em;
+    letter-spacing: -1px;
+    box-sizing: border-box;
+}
+.hero p {
+    padding: 10px;
+    display: block;
+}
+.hero .title { 
+}
+.hero .sub-title {
+    opacity: 0.5;
+}
+.hero .button {
+    background-color: #ff00b6;
+    color: white;
+    border-radius: 50px;
+    padding: 15px 30px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 40px;
+}
