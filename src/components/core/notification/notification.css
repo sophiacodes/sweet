@@ -1,0 +1,13 @@
+.notification {
+    display: inline-block;
+    width: 100%;
+    padding: 5em 0;
+    text-align: center;
+    color: #808080;
+}
+.notification p {
+    padding: .5em 0;
+    font-style: italic;
+    font-size: 1.2em;
+    font-family: 'Work Sans Extra Light';
+}

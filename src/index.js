@@ -5,14 +5,14 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import { DrizzleProvider } from 'drizzle-react'
 import { LoadingContainer } from 'drizzle-react-components'
 
-// Layouts
+// Pages
 import App from './App'
-import HomeContainer from './layouts/home/HomeContainer'
-import ProfileContainer from './layouts/profile/ProfileContainer'
-import AdminContainer from './layouts/admin/AdminContainer'
-import MarketplaceContainer from './layouts/marketplace/MarketplaceContainer'
-import StorefrontContainer from './layouts/store/StorefrontContainer'
-import AssetContainer from './layouts/asset/AssetContainer'
+import HomeContainer from './pages/home/HomeContainer'
+import ProfileContainer from './pages/profile/ProfileContainer'
+import AdminContainer from './pages/admin/AdminContainer'
+import MarketplaceContainer from './pages/marketplace/MarketplaceContainer'
+import StorefrontContainer from './pages/store/StorefrontContainer'
+import AssetContainer from './pages/asset/AssetContainer'
 
 import store from './store'
 import drizzleOptions from './drizzleOptions'

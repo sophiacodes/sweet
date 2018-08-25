@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import Header from './components/core/layouts/header/Header'
-import Hero from './components/core/layouts/hero/Hero'
-import Navigation from './components/core/layouts/navigation/Navigation'
-import Footer from './components/core/layouts/footer/Footer'
+import Header from './components/core/header/Header'
+import Hero from './components/core/hero/Hero'
+import Navigation from './components/core/navigation/Navigation'
+import Footer from './components/core/footer/Footer'
 // Styles
 import './css/reset.css'
 import './css/oswald.css'
