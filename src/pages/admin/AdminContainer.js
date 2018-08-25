@@ -1,6 +1,6 @@
 import { drizzleConnect } from 'drizzle-react'
 import Admin from './Admin';
-import * as actions from '../../actions'
+// import * as actions from './AdminActions'
 
 // May still need this even with data function to refresh component on updates for this contract.
 const mapStateToProps = state => { console.log('----- STATE', state)
@@ -27,7 +27,7 @@ const mapStateToProps = state => { console.log('----- STATE', state)
 // }
 const mapDispatchToProps = dispatch => {
   return {
-    approve: (id) => {console.log('WORK!!'); dispatch({ type: "APPROVE_APPLICATION", id })},
+    // approve: (id) => {console.log('WORK!!'); dispatch({ type: "APPROVE_APPLICATION", id })},
     getStores: (allStores) => {console.log('ALL STORES!!'); dispatch({ type: "GET_ALL_STORES", allStores })}
     // example: (test) => {console.log('TESTTTT', test); dispatch({type: "LAYOUT_ADD", payload: test})}
   }

@@ -6,7 +6,7 @@ A marketplace smart contract with basic transactions. Admin is the owner of the 
 
 ### Run an Ethereum client
 
-Ganache recommended, download (Ganache)[https://truffleframework.com/ganache] and launch the application. This will generate a blockchain running locally on port 7545.
+Ganache recommended, download [Ganache](https://truffleframework.com/ganache) and launch the application. This will generate a blockchain running locally on port 7545.
 
 ## Setting up the dapp
 
@@ -27,9 +27,9 @@ truffle test
 
 ### Configure Metamask
 
-The easiest way to interact with our dapp in a browser is through (MetaMask)[https://metamask.io/], a browser extension for both Chrome and Firefox.
+Interact with the dapp in a browser is using [MetaMask](https://metamask.io/), a browser extension for both Chrome and Firefox.
 
-Connect MetaMask to the blockchain created by Ganache. Click the menu that shows "Main Network" and select Custom RPC. In the box titled "New RPC URL" enter http://127.0.0.1:7545 and click Save. 
+Connect MetaMask to the local blockchain created by Ganache. Click the menu that shows "Main Network" and select Custom RPC. In the box titled "New RPC URL" enter `http://127.0.0.1:7545` and click Save. 
 
 ## Running the dapp
 

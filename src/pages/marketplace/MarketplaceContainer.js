@@ -11,6 +11,14 @@ const mapStateToProps = state => {
   }
 }
 
-const MarketplaceContainer = drizzleConnect(Marketplace, mapStateToProps);
+const mapDispatchToProps = dispatch => {
+  return {
+    approve: (id) => {console.log('WORK!!'); dispatch({ type: "APPROVE_APPLICATION", id })},
+    getStores: (allStores) => {console.log('ALL STORES!!'); dispatch({ type: "GET_ALL_STORES", allStores })}
+    // example: (test) => {console.log('TESTTTT', test); dispatch({type: "LAYOUT_ADD", payload: test})}
+  }
+}
+
+const MarketplaceContainer = drizzleConnect(Marketplace, mapStateToProps, mapDispatchToProps);
 
 export default MarketplaceContainer

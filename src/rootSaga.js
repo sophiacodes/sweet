@@ -1,26 +1,28 @@
 // import { takeLatest } from 'redux-saga'
 import { all, fork, takeEvery } from 'redux-saga/effects'
 import { drizzleSagas } from 'drizzle'
-import * as actions from './actions'
+// import * as actions from './actions'
+import adminSaga from '../src/pages/admin/AdminActions'
 
 // export function* helloSaga() {
 //   console.log('Hello Saga!')
 // }
 
-export function* watchApproveApplication() {
-  yield takeEvery('APPROVE_APPLICATION', actions.approveApplication)
-}
+// export function* watchApproveApplication() {
+//   yield takeEvery('APPROVE_APPLICATION', AdminActions.approveApplication)
+// }
 
-export function* watchGetAllStores() {
-  yield takeEvery('GET_ALL_STORES', actions.getAllStores)
-}
+// export function* watchGetAllStores() {
+//   yield takeEvery('GET_ALL_STORES', AdminActions.getAllStores)
+// }
 
 export default function* root() {
   yield all([
     ...drizzleSagas.map(saga => fork(saga)),
+    fork(adminSaga)
     // helloSaga(),
-    watchApproveApplication(),
-    watchGetAllStores()
+    // watchApproveApplication(),
+    // watchGetAllStores()
   ])
 }
 

@@ -37,9 +37,10 @@ class Admin extends Component {
     }
   }
 
-  getAllStores = async () => {console.log(this.contracts)
+  getAllStores = async () => {
+    
+    console.log(this.contracts)
     const getStores = await this.contracts.Marketplace.methods.getAllStores().call();
-
 
     console.log('** all stores...', getStores);
     let allStores = [];
@@ -56,6 +57,8 @@ class Admin extends Component {
     }
 
     console.log('storeArr', allStores);
+
+    // Update to redux-store
     this.props.getStores(allStores);
     // if (admin && admin !== this.props.accounts[0]) {
     //   console.log('is admin, go to /admin page')
@@ -109,7 +112,7 @@ class Admin extends Component {
   //   }
   // }
 
-  render() {
+  render() {console.log('HI STORE', this.state)
     return(
       <main className="container">
         <div className="pure-g">
