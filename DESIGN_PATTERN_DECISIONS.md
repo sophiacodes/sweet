@@ -8,7 +8,7 @@ Function modifiers were used to model the states and guard against incorrect usa
 
 ### Modifiers
 
-The (Solidity documentation)[https://solidity.readthedocs.io/en/v0.4.24/] suggests that `require()` "should be used to ensure valid conditions, such as inputs, or contract state variables [..], or to validate return values from calls to external contracts" evaluating the parameters passed to it as a boolean and throw an exception if it evaluates to false. The `revert()` throws in every case.
+The [Solidity documentation](https://solidity.readthedocs.io/en/v0.4.24/) suggests that `require()` "should be used to ensure valid conditions, such as inputs, or contract state variables [..], or to validate return values from calls to external contracts" evaluating the parameters passed to it as a boolean and throw an exception if it evaluates to false. The `revert()` throws in every case.
 
 ```Solidity
 modifier onlyOwner() {
