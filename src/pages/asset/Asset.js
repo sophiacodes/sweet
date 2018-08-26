@@ -19,11 +19,12 @@ class Asset extends Component {
   getAssetDetails = async () => {
     const assetId = this.props.params.assetId;
     const data = await this.contracts.Marketplace.methods.asset(assetId).call();
+    const toEtherAssetPriceConversion = parseFloat(data.price) / 1000000000000000000;
     const assetDetails = {
       storeOwner: data.storeOwner,
       name: data.name,
       description: data.description,
-      price: data.price,
+      price: toEtherAssetPriceConversion,
       assetId: data.assetId,
       buyer: data.buyer,
       sold: data.sold
@@ -34,10 +35,11 @@ class Asset extends Component {
   }
   buyNow = async (assetDetails) => {
     const buyerAddress = this.props.accounts[0];
+    const toWeiAssetPriceConversion = parseFloat(assetDetails.price) * 1000000000000000000;
     const sendParams = {
       from: buyerAddress,
       gas: 3000000,
-      value: (parseInt((assetDetails.price/1000000000000000000), 10) * 1000000000000000000)
+      value: toWeiAssetPriceConversion
     };
     console.log(assetDetails, buyerAddress, sendParams)
     const buyStatus = await this.contracts.Marketplace.methods.buyAsset(assetDetails.assetId, buyerAddress).send(sendParams).then((receipt) => {

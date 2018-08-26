@@ -196,16 +196,19 @@ contract Marketplace /* is Ownable */  {
       * @param _receiver An update of the name of the asset.
       * @param _amount An update of the description of the asset.
       */
-    function withdrawFunds(address _receiver, uint256 _amount) public payable {
+    function withdrawFunds(address _receiver, uint256 _amount) public onlyOwner payable {
         // Check store balance is less than amount to be withdrawn
-        if (store[msg.sender].balance < _amount) {
+        // if (store[msg.sender].balance < _amount) {
+        if (store[_receiver].balance < _amount) {
             return;
         }
         // Decrease stores balance
-        store[msg.sender].balance -= _amount;
+        // store[msg.sender].balance -= _amount;
+        store[_receiver].balance -= _amount;
         
         // Withdraw amount from contract
         _receiver.transfer(_amount);
+        // msg.sender.transfer(msg.value);
     }
 
     /** @dev Gets the contract account balance. Holds the proceeds of the assets bought in the marketplace.
@@ -219,7 +222,6 @@ contract Marketplace /* is Ownable */  {
       * @param _storeOwner Address of the store owner.
       */
     function approveApplication(address _storeOwner) public onlyOwner {
-        // Check if address is admin before approving store
         store[_storeOwner].approved = true;
         store[_storeOwner].timestamp = now;
     }

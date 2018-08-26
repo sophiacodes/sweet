@@ -15,6 +15,8 @@ class Profile extends Component {
       allAssets: []
     };
     this.account = {from: this.props.accounts[0]};
+    this.contractAddress = this.contracts.Marketplace.address;
+    console.log('contract address', this.contracts.Marketplace.address)
   }
 
   componentDidMount() {
@@ -47,8 +49,9 @@ class Profile extends Component {
     if (this.state.hasStoreAccount) {
       await this.contracts.Marketplace.methods.store(this.props.accounts[0]).call()
         .then((result) => {
+          const toEtherConversion = (parseFloat(result.balance)) / 1000000000000000000;
           this.setState({
-            balance: result.balance || 0
+            balance: toEtherConversion || 0
           })
         });
     }
@@ -96,7 +99,8 @@ class Profile extends Component {
     console.log('createItem', e)
     const { assetName, assetDescription, assetPrice, assetAddress } = e;
     // const assetCreated = 
-    await this.contracts.Marketplace.methods.createAsset(assetName, assetAddress, assetDescription, assetPrice).send().then((data) => {
+    const toWeiAssetPriceConversion = (parseInt(assetPrice)) * 1000000000000000000;
+    await this.contracts.Marketplace.methods.createAsset(assetName, assetAddress, assetDescription, toWeiAssetPriceConversion).send().then((data) => {
       console.log('assetCreated', data);
       // this.getAllAsset();
       // return data;
@@ -104,7 +108,7 @@ class Profile extends Component {
         storeOwner: this.account,
         name: assetName,
         description: assetDescription,
-        price: assetPrice,
+        price: toWeiAssetPriceConversion,
         assetId: assetAddress,
         buyer: '0x0000000000000000000000000000000000000000',
         sold: false
@@ -165,25 +169,27 @@ class Profile extends Component {
     // .catch((error) => {
     //   return error;
     // });  
-
-
+    console.log('************** WITHDRAW ****************')
+    const toWeiAssetPriceConversion = parseFloat(amount) * 1000000000000000000;
     // const contractAddress = await this.contracts.Marketplace.methods.admin().call();
     const sendParams = {
-      // from: contractAddress, // wrong not admin.. should be contract address 
+      from: this.contractAddress, // wrong not admin.. should be contract address 
       to: this.props.accounts[0], // receiver,
       gas: 3000000,
-      value: (parseInt(amount, 10) * 1000000000000000000)
+      value: toWeiAssetPriceConversion
     };
-    // const buyStatus = 
+    console.log('************** START WITHDRAW ****************')
     await this.contracts.Marketplace.methods.withdrawFunds(sendParams.to, sendParams.value).send(sendParams)
     .then((receipt) => {
-      console.log('withdrawalStatus', receipt);
+      console.log('RECEPIT: withdrawalStatus', receipt);
       // this.getAllStores();
       return receipt;
     })
     .catch((error) => {
+      console.log('ERROR: withdrawalStatus', error);
       return error;
     });
+    console.log('************** END WITHDRAW ****************')
   }
   render() {
     const defaultTab = (this.state.hasStoreAccount) ? 0 : 1;
