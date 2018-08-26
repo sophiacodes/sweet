@@ -8,7 +8,7 @@ External function calls are safe guided by the use of a `modifier`, `require()` 
 
 ## Tx.origin & Gas Limits
 
-`tx.origin` is not required as Ethereum community developers have stated that it is not meaningful and unlikely to be usable. So `msg.sender` the recommended syntax has been used in the Marketplace contract.
+`tx.origin` is not required as Ethereum core developers have stated publicly that it is not meaningful and unlikely to be usable. So `msg.sender` the recommended syntax has been used in the Marketplace contract.
 
 Care of looping over arrays in the contract of undetermined length has been considered. Due to the complexity and gas limit storage has been returned to the Dapp and dealt with on the client-side. 
 
