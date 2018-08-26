@@ -145,6 +145,46 @@ class Profile extends Component {
     this.props.createAsset(allAssets);
     // console.log('thi.s', this.state)
   }
+
+  onChangeWithdrawFunds = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  withdrawFunds = async () => { console.log('WITHDRAW ETHER, to', this.state['receiver-address'], 'amount', this.state['withdrawal-amount'])
+    const receiver = this.state['receiver-address'];
+    const amount = parseFloat(this.state['withdrawal-amount']);
+    // // const withdrawalStatus = 
+    // await this.contracts.Marketplace.methods.withdrawFunds(receiver, amount).send(this.props.accounts[0])
+    // .then((receipt) => {
+    //   console.log('withdrawalStatus', receipt);
+    //   // this.getAllStores();
+    //   return receipt;
+    // })
+    // .catch((error) => {
+    //   return error;
+    // });  
+
+
+    // const contractAddress = await this.contracts.Marketplace.methods.admin().call();
+    const sendParams = {
+      // from: contractAddress, // wrong not admin.. should be contract address 
+      to: this.props.accounts[0], // receiver,
+      gas: 3000000,
+      value: (parseInt(amount, 10) * 1000000000000000000)
+    };
+    // const buyStatus = 
+    await this.contracts.Marketplace.methods.withdrawFunds(sendParams.to, sendParams.value).send(sendParams)
+    .then((receipt) => {
+      console.log('withdrawalStatus', receipt);
+      // this.getAllStores();
+      return receipt;
+    })
+    .catch((error) => {
+      return error;
+    });
+  }
   render() {
     const defaultTab = (this.state.hasStoreAccount) ? 0 : 1;
     return(
@@ -164,7 +204,10 @@ class Profile extends Component {
                 
                 <hr />
                 <h3>EthBay balance</h3>
-                [withdraw from/to] {this.state.balance || 0}
+                {this.state.balance || 0} ether
+                <br />
+                Receiver Ether Address: <input type="text" name="receiver-address" onChange={this.onChangeWithdrawFunds} />
+                Ether withdrawal amount: <input type="text" name="withdrawal-amount" onChange={this.onChangeWithdrawFunds}/>
                 <button type="button" onClick={this.withdrawFunds}>Withdraw funds</button>
               </TabPanel>
               <TabPanel>
