@@ -1,8 +1,12 @@
-// import { takeLatest } from 'redux-saga'
-import { all, fork, takeEvery } from 'redux-saga/effects'
+import { all, fork } from 'redux-saga/effects'
 import { drizzleSagas } from 'drizzle'
 // import * as actions from './actions'
-import adminSaga from '../src/pages/admin/AdminActions'
+import adminSaga from '../src/pages/admin/AdminSagaActions'
+import profileSaga from '../src/pages/profile/ProfileSagaActions'
+import homeSaga from '../src/pages/home/HomeSagaActions'
+import marketplaceSaga from '../src/pages/marketplace/MarketplaceSagaActions'
+import assetSaga from '../src/pages/asset/AssetSagaActions'
+import storefrontSaga from '../src/pages/store/StorefrontSagaActions'
 
 // export function* helloSaga() {
 //   console.log('Hello Saga!')
@@ -19,14 +23,19 @@ import adminSaga from '../src/pages/admin/AdminActions'
 export default function* root() {
   yield all([
     ...drizzleSagas.map(saga => fork(saga)),
-    fork(adminSaga)
+    fork(adminSaga),
+    fork(profileSaga),
+    fork(homeSaga),
+    fork(marketplaceSaga),
+    fork(assetSaga),
+    fork(storefrontSaga)
     // helloSaga(),
     // watchApproveApplication(),
     // watchGetAllStores()
   ])
 }
 
-// export function* handleTransaction(drizzle, fxn, ...args) {                                          
+// export function * handleTransaction(drizzle, fxn, ...args) {                                          
 //   let txId = yield call(fxn.cacheSend, ...args);                                                     
 //   let txComplete = false;                                                                            
                                                                                                      

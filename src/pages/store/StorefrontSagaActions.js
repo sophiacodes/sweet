@@ -12,17 +12,9 @@ export function * getAllStores(allStores) {
     yield put({type: 'ALL_STORES', payload: allStores})
 }
 
-// export function * watchApproveApplication() {
-//     yield takeEvery('APPROVE_APPLICATION', approveApplication)
-//   }
-  
-//   export function * watchGetAllStores() {
-//     yield takeEvery('GET_ALL_STORES', getAllStores)
-//   }
+function * storefrontSaga() {
+    // yield takeLatest('APPROVE_APPLICATION', approveApplication)
+    // yield takeLatest('GET_ALL_STORES', getAllStores)
+}
 
-  function * adminSaga() {
-    yield takeLatest('APPROVE_APPLICATION', approveApplication)
-    yield takeLatest('GET_ALL_STORES', getAllStores)
-  }
-
-  export default adminSaga
+export default storefrontSaga

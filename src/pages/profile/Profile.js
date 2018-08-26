@@ -7,30 +7,35 @@ import ActiveListings from '../../components/marketplace/active-listings/Active-
 import SoldListings from '../../components/marketplace/sold-listings/Sold-Listings'
 
 class Profile extends Component {
-  constructor(props, context, { authData }) {
+  constructor(props, context) {
     super(props)
-    authData = this.props
     this.contracts = context.drizzle.contracts;
     this.state = {
       hasStoreAccount: null,
       allAssets: []
-    }
-    console.log('CONTRACT - PROFILE PAGE', this.contracts)
+    };
+    this.account = {from: this.props.accounts[0]};
   }
 
   componentDidMount() {
-    // IMPORTANT: Check if admin.. if so redirect to /admin
     this.checkAdminRights();
-    this.sellAssets();
-    this.getAssets();
+    // const sellerExists = 
+    this.getSeller();
+    // console.log('sellerExists', sellerExists)
   }
 
-  componentWillReceiveProps(nextProps, nextState) {
-    // console.log('componentWillReceiveProps', nextProps.store.getState(), nextState.drizzle.store.getState())
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', nextProps)
+
+    this.setState({
+      storeData: nextProps.profileState.sellerStore.storeData,
+      hasStoreAccount: nextProps.profileState.accountStatus,
+      allAssets: nextProps.profileState.allAssets
+    });
   }
 
   checkAdminRights = async () => {
-    const admin = await this.contracts.Marketplace.methods.admin().call();
+    const admin = await this.contracts.Marketplace.methods.admin().call(this.account);
     console.log('called admin again...', admin);
     if (admin && admin === this.props.accounts[0]) {
       console.log('is admin, go to /admin page')
@@ -38,99 +43,91 @@ class Profile extends Component {
     }
   }
 
-  sellAssets = async () => {
-    const res = await this.contracts.Marketplace.methods.store(this.props.accounts[0]).call().then((data) => {
-      console.log('has store addr', data);
-      const storeData = {
-        approved: data.approved,
-        balance: data.balance,
-        name: data.name,
-        owner: data.owner,
-        storeId: data.storeId
-      }
-      if (data.owner === this.props.accounts[0]) {
-        // show edit account details
-        this.setState({
-          hasStoreAccount: true,
-          storeData
-        })
-      } else {
-        // show apply for store application
-        this.setState({
-          hasStoreAccount: false,
-          storeData
-        })
-      }
-
-      return data;
-    })
-    .catch((error) => {
-      return error;
-    });
+  getStoreBalance = async () => {
+    if (this.state.hasStoreAccount) {
+      await this.contracts.Marketplace.methods.store(this.props.accounts[0]).call()
+        .then((result) => {
+          this.setState({
+            balance: result.balance || 0
+          })
+        });
+    }
   }
 
-  sendApplication = (e) => {
-    e.preventDefault();
-    console.log('send regi')
-    // 
-
-    // Declare this transaction to be observed. We'll receive the stackId for reference.
-    const txId = this.contracts.Marketplace.methods.createStore(this.state.storeName).send()
-      .then((data) => {
-        console.log('data', data)
-        return data;
+  getSeller = async () => {
+    // sellerExists = 
+    await this.contracts.Marketplace.methods.store(this.props.accounts[0]).call({from: this.props.accounts[0]})
+      .then((response) => {
+        // Update to redux-store
+        this.props.getSellerStore({ storeData: response });
+        this.props.hasAccount(response.owner === this.props.accounts[0]);
+        // return response;
+        if (response.owner === this.props.accounts[0]) {
+          this.getAssets(); // Only if user has a store
+          this.getStoreBalance(); // Get store balance
+        }
       })
       .catch((error) => {
-        console.log('error', error.message)
-        return error;
+        console.error(error);
+        // return error;
       });
+    // return sellerExists;
+  }
 
-    if (txId.hasOwnProperty('transactionHash')) {
-      this.sellAssets();
-    }
-    // const state = this.props.drizzle;
-    // Use the dataKey to display the transaction status.
- 
-    // this.props.testAction(stackId);
-    // console.log('STATE', this.props.store.getState())
-    // if (state.transactionStack[stackId]) {
-    //   const txHash = state.transactionStack[stackId]
+  sendApplication = async (e) => {
+    e.preventDefault();
 
-    //   return state.transactions[txHash].status
-    // }
-
-    // let txHash = state.transactionStack[txId];                                                                                                                                                  
-    // return txHash && state.transactions[txHash].status === 'success' 
+    await this.contracts.Marketplace.methods.createStore(this.state.storeName).send(this.account)
+      .then((data) => {
+          // HasAccount set to true, update store
+          this.props.hasAccount(true);
+      })
+      .catch((error) => {
+          this.props.hasAccount(false);
+          console.error(error);
+      });
   }
 
   storeNameUpdated = (e) => {
-    // console.log('storeName updated', e.target.value, e.target.name);
     this.setState({ [e.target.name]: e.target.value });
   }
-  testSubmit = () => {
-    console.log('test sub')
-  }
+
   createItem = async (e) => {
     console.log('createItem', e)
     const { assetName, assetDescription, assetPrice, assetAddress } = e;
-    const assetCreated = await this.contracts.Marketplace.methods.createAsset(assetName, assetAddress, assetDescription, assetPrice).send().then((data) => {
+    // const assetCreated = 
+    await this.contracts.Marketplace.methods.createAsset(assetName, assetAddress, assetDescription, assetPrice).send().then((data) => {
       console.log('assetCreated', data);
       // this.getAllAsset();
-      return data;
+      // return data;
+      const asset = {
+        storeOwner: this.account,
+        name: assetName,
+        description: assetDescription,
+        price: assetPrice,
+        assetId: assetAddress,
+        buyer: '0x0000000000000000000000000000000000000000',
+        sold: false
+      };
+      let allAssets = this.state.allAssets;
+      if (this.state.allAssets.length > 0) {
+        allAssets = [...allAssets, asset];
+      }
+      this.props.createAsset(allAssets);
     })
     .catch((error) => {
-      return error;
+      // return error;
+      console.error(error);
     });
-
-
   }
+
   getAssets = async () => {
     const assetCount = await this.contracts.Marketplace.methods.assetIdCounter().call();
     let allAssets = [];
     for (let i = 0; i < assetCount; i++) {
       const data = await this.contracts.Marketplace.methods.asset(i).call();
       if (data.storeOwner === this.props.accounts[0]) {
-        const store = {
+        const asset = {
           storeOwner: data.storeOwner,
           name: data.name,
           description: data.description,
@@ -139,16 +136,14 @@ class Profile extends Component {
           buyer: data.buyer,
           sold: data.sold
         };
-        allAssets = [ ...allAssets, store ];
+        allAssets = [ ...allAssets, asset ];
       }
     }
-    this.setState({
-      allAssets
-    })
-    console.log('thi.s', this.state)
-  }
-  testme = (e) => {
-    console.log('TEST ME', e)
+    // this.setState({
+    //   allAssets
+    // });
+    this.props.createAsset(allAssets);
+    // console.log('thi.s', this.state)
   }
   render() {
     const defaultTab = (this.state.hasStoreAccount) ? 0 : 1;
@@ -169,12 +164,10 @@ class Profile extends Component {
                 
                 <hr />
                 <h3>EthBay balance</h3>
-                [withdraw from/to]
-                <button type="button" onChange={this.save}>Withdraw funds</button>
+                [withdraw from/to] {this.state.balance || 0}
+                <button type="button" onClick={this.withdrawFunds}>Withdraw funds</button>
               </TabPanel>
               <TabPanel>
-                [check if address has a store... if so show sell section else... shoe registration form]
-                [once registration submitted... show pending approval]
                 {this.state.hasStoreAccount ? (
                   <div>
                     {this.state.storeData.approved ? (
@@ -226,8 +219,7 @@ class Profile extends Component {
 }
 
 Profile.contextTypes = {
-  drizzle: PropTypes.object,
-  drizzleStore: PropTypes.object
+  drizzle: PropTypes.object
 };
 
 export default Profile

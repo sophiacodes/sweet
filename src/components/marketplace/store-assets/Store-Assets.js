@@ -12,12 +12,8 @@ const importAll = (r) => {
 const images = importAll(require.context('../../../../public/images', false, /\.(png|jpe?g|svg)$/));
 
 const StoreAssets = ({...props}) => {
-    // let imageCounter = 0;
+
     const displayStoresAssets = props.allAssets.map((item, i) => {
-        // imageCounter++;
-        // if (i === 17) {
-        //     imageCounter = 0; // Reset counter... don't have that many images :)
-        // }
         return (
           <div key={i} className="store-asset">
             <Link to={`/asset/${item.storeOwner}/${item.assetId}`}>

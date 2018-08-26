@@ -1,0 +1,11 @@
+.active-listings {
+
+}
+.active-listings .asset-row {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+}
+.active-listings .asset-item span {
+    display: inline-block;
+}

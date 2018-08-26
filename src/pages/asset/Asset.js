@@ -37,7 +37,7 @@ class Asset extends Component {
     const sendParams = {
       from: buyerAddress,
       gas: 3000000,
-      value: (parseInt(assetDetails.price, 10) * 1000000000000000000)
+      value: (parseInt((assetDetails.price/1000000000000000000), 10) * 1000000000000000000)
     };
     console.log(assetDetails, buyerAddress, sendParams)
     const buyStatus = await this.contracts.Marketplace.methods.buyAsset(assetDetails.assetId, buyerAddress).send(sendParams).then((receipt) => {

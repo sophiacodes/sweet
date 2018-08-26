@@ -32,7 +32,7 @@ class CreateAsset extends Component {
                     <label htmlFor="asset-description">Description</label><br />
                     <input type="text" name="asset-description" onChange={this.onChangeAssetDetails} />
                     <br /><br />
-                    <label htmlFor="asset-price">Price</label><br />
+                    <label htmlFor="asset-price">Ether</label><br />
                     <input type="number" name="asset-price" onChange={this.onChangeAssetDetails} />
                     <br />
                     <input type="button" name="list-asset" value="Create item" onClick={this.createItem} />

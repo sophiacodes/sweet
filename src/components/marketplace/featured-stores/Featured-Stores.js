@@ -13,7 +13,8 @@ const images = importAll(require.context('../../../../public/images', false, /\.
 
 const FeaturedStores = ({...props}) => {
     let displayCounter = 0;
-    const displayFeaturedStores = props.allStores.map((item, i) => {
+    const onlyApproved = props.allStores.filter(store => store.approved === true);
+    const displayFeaturedStores = onlyApproved.map((item, i) => {
         displayCounter++;
         if (i === 17) {
             displayCounter = 0; // Reset counter... don't have that many images :)

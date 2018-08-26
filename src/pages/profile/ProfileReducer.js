@@ -1,30 +1,15 @@
-const initialState = {
-    data: null
+const profileReducer = (state = {}, action) => {
+  let newState = state;
+  switch (action.type) {
+    case 'SELLER_STORE':
+    case 'ACCOUNT_CREATED':
+    case 'ASSET_CREATED':
+      newState = { ...state, ...action.payload };
+      break;
+    default: 
+      break;
   }
-  
-  const profileReducer = (state = initialState, action) => {
-    if (action.type === 'USER_LOGGED_IN' || action.type === 'USER_UPDATED')
-    {
-      return Object.assign({}, state, {
-        data: action.payload
-      })
-    }
-  
-    if (action.type === 'USER_LOGGED_OUT')
-    {
-      return Object.assign({}, state, {
-        data: null
-      })
-    }
+  return newState;
+}
 
-    if (action.type === 'EXAMPLE')
-    {
-      return Object.assign({}, state, {
-        EXAMPLE: 'HI THERE'
-      })
-    }
-  
-    return state
-  }
-  
-  export default profileReducer
+export default profileReducer;

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Notification from '../../core/notification/Notification'
+import './active-listings.css';
 
 class ActiveListings extends Component {
     componentWillMount() {
@@ -18,30 +20,40 @@ class ActiveListings extends Component {
           sold: data.sold
         */
         // name, store id, decription, price, edit button, delete button, update button
-        console.log('this.props.allAssets', this.props.allAssets)
-        const active = this.props.allAssets;
-        const displayListings = active.map((item, i) => {
-            let t = '';
-            if (!item.sold) {
-                t = <p key={`asset-{i}`}>{item.assetId}{item.name}{item.description}{item.price} edit/delete/save</p>
+        
+        if (typeof this.props.allAssets !== 'undefined') { 
+            const onlyActive = this.props.allAssets.filter(asset => asset.sold === false);
+            if (onlyActive.length > 0) {
+                const displayListings = onlyActive.map((item, i) => {
+                    let t = '';
+                    if (!item.sold) {
+                        t = <p key={`asset-{i}`} className="asset-item">
+                            <span>{item.assetId}</span>
+                            <span>{item.name}</span>
+                            <span>{item.description}</span>
+                            <span>{item.price}</span>
+                             edit/delete/save</p>
+                        return (
+                            <div key={i} className="asset-row">
+                                {t}
+                            </div>
+                        )
+                    }
+                })
+                return displayListings;
             }
-            return (
-                <div key={i}>
-                    {t}
-                </div>
-            )
-        })
-        return displayListings;
+        }
+        return (
+            <Notification>
+                <p>You have no active assets for sell</p>
+            </Notification>
+        );
     }
     render() {
         return (
-            <div>
+            <div className="active-listings">
                 <h3>Active</h3>
-                {this.state.active ? (
-                    <div>{this.state.active}</div>
-                ) : (
-                    <p>[You have no active assets for sell]</p>
-                )}
+                <div>{this.state.active}</div>
             </div>
         )
     }
