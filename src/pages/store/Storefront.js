@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import StoreAssets from '../../components/marketplace/store-assets/Store-Assets'
 

@@ -47,9 +47,9 @@ class Profile extends Component {
 
   getStoreBalance = async () => {
     if (this.state.hasStoreAccount) {
-      await this.contracts.Marketplace.methods.store(this.props.accounts[0]).call()
+      await this.contracts.Marketplace.methods.getSellerBalance().call()
         .then((result) => {
-          const toEtherConversion = (parseFloat(result.balance)) / 1000000000000000000;
+          const toEtherConversion = (parseFloat(result)) / 1000000000000000000;
           this.setState({
             balance: toEtherConversion || 0
           })
@@ -99,7 +99,7 @@ class Profile extends Component {
     console.log('createItem', e)
     const { assetName, assetDescription, assetPrice, assetAddress } = e;
     // const assetCreated = 
-    const toWeiAssetPriceConversion = (parseInt(assetPrice)) * 1000000000000000000;
+    const toWeiAssetPriceConversion = (parseFloat(assetPrice)) * 1000000000000000000;
     await this.contracts.Marketplace.methods.createAsset(assetName, assetAddress, assetDescription, toWeiAssetPriceConversion).send().then((data) => {
       console.log('assetCreated', data);
       // this.getAllAsset();
@@ -143,47 +143,17 @@ class Profile extends Component {
         allAssets = [ ...allAssets, asset ];
       }
     }
-    // this.setState({
-    //   allAssets
-    // });
     this.props.createAsset(allAssets);
-    // console.log('thi.s', this.state)
   }
 
-  onChangeWithdrawFunds = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
-  withdrawFunds = async () => { 
-    // console.log('WITHDRAW ETHER, to', this.state['receiver-address'], 'amount', this.state['withdrawal-amount'])
-    // const receiver = this.state['receiver-address'];
-    // const amount = parseFloat(this.state['withdrawal-amount']);
-    // // const withdrawalStatus = 
-    // await this.contracts.Marketplace.methods.withdrawFunds(receiver, amount).send(this.props.accounts[0])
-    // .then((receipt) => {
-    //   console.log('withdrawalStatus', receipt);
-    //   // this.getAllStores();
-    //   return receipt;
-    // })
-    // .catch((error) => {
-    //   return error;
-    // });  
+  withdrawFunds = async () => {  
     console.log('************** WITHDRAW ****************')
-    // const toWeiAssetPriceConversion = parseFloat(amount) * 1000000000000000000;
-    // const contractAddress = await this.contracts.Marketplace.methods.admin().call();
     const sendParams = {
-      // from: this.contractAddress, // wrong not admin.. should be contract address 
-      // to: this.props.accounts[0], // receiver,
       gas: 3000000
-      // value: toWeiAssetPriceConversion
     };
     console.log('************** START WITHDRAW ****************')
     await this.contracts.Marketplace.methods.withdrawBalance().send(sendParams)
     .then((receipt) => {
-      console.log('RECEPIT: withdrawalStatus', receipt);
-      // this.getAllStores();
       return receipt;
     })
     .catch((error) => {
@@ -192,6 +162,7 @@ class Profile extends Component {
     });
     console.log('************** END WITHDRAW ****************')
   }
+
   render() {
     const defaultTab = (this.state.hasStoreAccount) ? 0 : 1;
     return(
@@ -208,13 +179,10 @@ class Profile extends Component {
               <TabPanel>
                 <h3>Your wallet details</h3>
                 <AccountData accountIndex="0" units="ether" precision="3" />
-                
                 <hr />
                 <h3>EthBay balance</h3>
                 {this.state.balance || 0} ether
                 <br />
-                Receiver Ether Address: <input type="text" name="receiver-address" onChange={this.onChangeWithdrawFunds} />
-                Ether withdrawal amount: <input type="text" name="withdrawal-amount" onChange={this.onChangeWithdrawFunds}/>
                 <button type="button" onClick={this.withdrawFunds}>Withdraw funds</button>
               </TabPanel>
               <TabPanel>

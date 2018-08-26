@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './asset-details.css';
 
 const importAll = (r) => {
-    let images = {};
+    let images = {}; // eslint-disable-next-line
     r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
     return images;
 }

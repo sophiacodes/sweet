@@ -5,21 +5,16 @@ import MarketplaceApprovals from '../../../src/components/marketplace/marketplac
 // import ContractBalance from '../../../src/components/marketplace/contract-balance/ContractBalance';
 
 class Admin extends Component {
-  constructor(props, context, { authData }) {
+  constructor(props, context) {
     super(props)
-    authData = this.props
     this.contracts = context.drizzle.contracts;
     this.state = {
       storeArr: [],
       contractBalance: 0
     }
-    this.contractAddress = this.contracts.Marketplace.address;
-    // this.test = context.TESTREDUCER
-    // IMPORTANT: Check if admin.. if not redirect to /profile
   }
 // *** DETECT CHANGE WHEN WALLET ADDRESS CHANGES ***
   componentWillMount() {
-    // console.log('TESTREDUCER', this.test)
     this.checkAdminRights();
   }
   componentWillReceiveProps(nextProps) {
@@ -30,9 +25,7 @@ class Admin extends Component {
   }
   checkAdminRights = async () => {
     const admin = await this.contracts.Marketplace.methods.admin().call();
-    console.log('called admin again...', admin);
     if (admin && admin !== this.props.accounts[0]) {
-      console.log('is admin, go to /admin page')
       this.props.router.push('/profile');
     } else {
       // Get all stores for approval
@@ -60,14 +53,8 @@ class Admin extends Component {
       allStores = [ ...allStores, store ];
     }
 
-    console.log('storeArr', allStores);
-
     // Update to redux-store
     this.props.getStores(allStores);
-    // if (admin && admin !== this.props.accounts[0]) {
-    //   console.log('is admin, go to /admin page')
-    //   this.props.router.push('/profile');
-    // }
   }
 
   getContractBalance = async () => {
@@ -89,8 +76,7 @@ class Admin extends Component {
     // dispatch({type: "LAYOUT_ADD"}, payload);
     this.props.approve(payload); 
     */
-    const approvedStatus = await this.contracts.Marketplace.methods.approveApplication(storeDetails[1]).send().then((data) => {
-        console.log('approvedStatus', data);
+      await this.contracts.Marketplace.methods.approveApplication(storeDetails[1]).send().then((data) => {
         this.getAllStores();
         return data;
       })
@@ -98,30 +84,6 @@ class Admin extends Component {
         return error;
       });
   }
-  // checkAdminRights = async () => {
-  //   const admin = await this.contracts.Admin.methods.admin().call().then((data) => {
-  //     console.log('call admin addr', data);
-  //     return data;
-  //   })
-  //   .catch((error) => {
-  //     return error;
-  //   });
-  //   console.log( this.props.accounts[0])
-  //   if (admin && admin !== this.props.accounts[0]) {
-  //     this.props.router.push('/profile');
-  //   } else {
-  //     // Get number of stores
-  //     const numOfStores = await this.contracts.Store.methods.storeIdCounter().call().then((data) => {
-  //       console.log('numOfStores', data);
-  //       return data;
-  //     })
-  //     .catch((error) => {
-  //       return error;
-  //     });
-  //     console.log('numOfStores', numOfStores)
-  //     // Get applications for approvel
-  //   }
-  // }
 
   render() {
     return(

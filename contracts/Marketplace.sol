@@ -20,7 +20,6 @@ contract Marketplace /* is Ownable */  {
         address owner;
         string name;
         bool approved;
-        uint balance;
         uint storeId;
         uint timestamp;
     }
@@ -76,7 +75,7 @@ contract Marketplace /* is Ownable */  {
         address storeOwner = msg.sender;
         if (store[storeOwner].owner != storeOwner) {
             // Create new Store Struct with name and saves it to storage.
-            store[storeOwner] = Store(storeOwner, _name, false, 0, storeIdCounter, 0);
+            store[storeOwner] = Store(storeOwner, _name, false, storeIdCounter, 0);
             storeKeys.push(storeOwner); // Keep track of store index to retrieve later
             storeIdCounter++;
             createdStore = true;          
@@ -165,6 +164,13 @@ contract Marketplace /* is Ownable */  {
         return msg.sender.balance;
     }
 
+     /** @dev Retrieves the balance for the sellers account.
+      * @return uint Returns balance.
+      */
+    function getSellerBalance() public view returns (uint) {
+        return sellerBalances[msg.sender];
+    }
+
     function buyAsset(address _seller, uint _assetId) onlyBuyer(_assetId) public payable returns (bool) {
         require(_assetId >= 0 && _assetId <= assetIdCounter); // Asset should exist 
 
@@ -173,44 +179,16 @@ contract Marketplace /* is Ownable */  {
         } // Set the assets new owner
 
         if (msg.value > 0) {
-            sellerBalances[_seller] += msg.value; // Add amount to mapping seller account balance
-
-            // Update balance of sellers store
-            store[asset[_assetId].storeOwner].balance += asset[_assetId].price;
-            
+            // Add amount to mapping seller account balance
+            sellerBalances[_seller] += msg.value; 
             // Update details of the asset sold
             asset[_assetId].sold = true;
             asset[_assetId].buyer = msg.sender;
-
             return true;
         } else {
             return false;
         }
     }
-    
-    // function buyAsset(uint _assetId, address _buyerAddress) onlyBuyer(_assetId) public payable {
-    //     require(_assetId >= 0 && _assetId <= assetIdCounter); // Asset should exist 
-
-    //     if(!setOwner(_assetId, _buyerAddress)) {
-    //         revert();
-    //     } // Set the assets new owner
-
-    //     // Transfer funds
-    //     // If move of funds successful... update ownership
-    //     if (msg.sender.balance > asset[_assetId].price) {
-    //         address(this).transfer(asset[_assetId].price);
-            
-    //         // Update balance of sellers store
-    //         store[asset[_assetId].storeOwner].balance += asset[_assetId].price;
-            
-    //         // Update details of the asset sold
-    //         asset[_assetId].sold = true;
-    //         asset[_assetId].buyer = _buyerAddress;
-    //     } else {
-    //         // setOwner(_assetId, asset[_assetId].storeOwner);
-    //         revert();
-    //     }
-    // }
 
     /** @dev Only seller can withdraw own funds. All funds mapped to address will be released 
       */
@@ -220,21 +198,6 @@ contract Marketplace /* is Ownable */  {
         // The user's balance is already 0, so future invocations won't withdraw anything
         msg.sender.transfer(amountToWithdraw);
     }
-
-    // function withdrawFunds(address _receiver, uint256 _amount) public onlyOwner payable {
-    //     // Check store balance is less than amount to be withdrawn
-    //     // if (store[msg.sender].balance < _amount) {
-    //     if (store[_receiver].balance < _amount) {
-    //         return;
-    //     }
-    //     // Decrease stores balance
-    //     // store[msg.sender].balance -= _amount;
-    //     store[_receiver].balance -= _amount;
-        
-    //     // Withdraw amount from contract
-    //     _receiver.transfer(_amount);
-    //     // msg.sender.transfer(msg.value);
-    // }
 
     /** @dev Gets the contract account balance. Holds the proceeds of the assets bought in the marketplace.
       * @return uint256 Returns balance.

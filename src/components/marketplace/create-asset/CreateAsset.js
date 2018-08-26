@@ -24,7 +24,7 @@ class CreateAsset extends Component {
                 <h3>List an asset to sell</h3>
                 <div>
                     <label htmlFor="asset-address">Asset address (contract address)</label><br />
-                    <input type="text" name="asset-address" onChange={this.onChangeAssetDetails} />
+                    <input type="text" name="asset-address" onChange={this.onChangeAssetDetails} maxLength="42" />
                     <br /><br />
                     <label htmlFor="asset-name">Name</label><br />
                     <input type="text" name="asset-name" onChange={this.onChangeAssetDetails} />

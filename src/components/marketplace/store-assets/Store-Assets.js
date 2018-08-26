@@ -4,7 +4,7 @@ import Notification from '../../core/notification/Notification'
 import './store-assets.css'
 
 const importAll = (r) => {
-    let images = {};
+    let images = {}; // eslint-disable-next-line
     r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
     return images;
 }

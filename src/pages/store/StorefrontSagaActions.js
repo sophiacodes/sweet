@@ -1,5 +1,4 @@
-// import { delay } from 'redux-saga'
-import { put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { put, takeLatest } from 'redux-saga/effects'
 
 export function * approveApplication(id) {
     console.log('CALLED ACTION - approveApplication', id)

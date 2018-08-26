@@ -39,6 +39,7 @@ class ActiveListings extends Component {
                             </div>
                         )
                     }
+                    return <div />;
                 })
                 return displayListings;
             }
