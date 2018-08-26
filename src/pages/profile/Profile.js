@@ -156,9 +156,10 @@ class Profile extends Component {
     })
   }
 
-  withdrawFunds = async () => { console.log('WITHDRAW ETHER, to', this.state['receiver-address'], 'amount', this.state['withdrawal-amount'])
-    const receiver = this.state['receiver-address'];
-    const amount = parseFloat(this.state['withdrawal-amount']);
+  withdrawFunds = async () => { 
+    // console.log('WITHDRAW ETHER, to', this.state['receiver-address'], 'amount', this.state['withdrawal-amount'])
+    // const receiver = this.state['receiver-address'];
+    // const amount = parseFloat(this.state['withdrawal-amount']);
     // // const withdrawalStatus = 
     // await this.contracts.Marketplace.methods.withdrawFunds(receiver, amount).send(this.props.accounts[0])
     // .then((receipt) => {
@@ -170,16 +171,16 @@ class Profile extends Component {
     //   return error;
     // });  
     console.log('************** WITHDRAW ****************')
-    const toWeiAssetPriceConversion = parseFloat(amount) * 1000000000000000000;
+    // const toWeiAssetPriceConversion = parseFloat(amount) * 1000000000000000000;
     // const contractAddress = await this.contracts.Marketplace.methods.admin().call();
     const sendParams = {
-      from: this.contractAddress, // wrong not admin.. should be contract address 
-      to: this.props.accounts[0], // receiver,
-      gas: 3000000,
-      value: toWeiAssetPriceConversion
+      // from: this.contractAddress, // wrong not admin.. should be contract address 
+      // to: this.props.accounts[0], // receiver,
+      gas: 3000000
+      // value: toWeiAssetPriceConversion
     };
     console.log('************** START WITHDRAW ****************')
-    await this.contracts.Marketplace.methods.withdrawFunds(sendParams.to, sendParams.value).send(sendParams)
+    await this.contracts.Marketplace.methods.withdrawBalance().send(sendParams)
     .then((receipt) => {
       console.log('RECEPIT: withdrawalStatus', receipt);
       // this.getAllStores();

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Notification from '../../../src/components/core/notification/Notification'
 import MarketplaceApprovals from '../../../src/components/marketplace/marketplace-approvals/Marketplace-Approvals';
-import ContractBalance from '../../../src/components/marketplace/contract-balance/ContractBalance';
+// import ContractBalance from '../../../src/components/marketplace/contract-balance/ContractBalance';
 
 class Admin extends Component {
   constructor(props, context, { authData }) {
@@ -37,7 +37,7 @@ class Admin extends Component {
     } else {
       // Get all stores for approval
       this.getAllStores();
-      this.getContractBalance();
+      // this.getContractBalance();
     }
   }
 
@@ -123,34 +123,7 @@ class Admin extends Component {
   //   }
   // }
 
-  withdrawFunds = async () => { 
-    // console.log('WITHDRAW ETHER, to', this.state['receiver-address'], 'amount', this.state['withdrawal-amount'])
-    // const receiver = this.state['receiver-address'];
-    // const amount = parseFloat(this.state['withdrawal-amount']);
-
-    console.log('************** WITHDRAW ****************')
-    // const toWeiAssetPriceConversion = parseFloat(amount) * 1000000000000000000;
-    // const contractAddress = await this.contracts.Marketplace.methods.admin().call();
-    const sendParams = {
-      from: this.contractAddress, // wrong not admin.. should be contract address 
-      to: '0xa27233ee5d816552175dB350Ae913d12512A6334', //this.props.accounts[0], // receiver,
-      gas: 3000000,
-      value: 40000000000000000000 // 40 to test. toWeiAssetPriceConversion
-    };
-    console.log('************** START WITHDRAW ****************')
-    await this.contracts.Marketplace.methods.withdrawFunds(sendParams.to, sendParams.value).send(sendParams)
-    .then((receipt) => {
-      console.log('RECEPIT: withdrawalStatus', receipt);
-      // this.getAllStores();
-      return receipt;
-    })
-    .catch((error) => {
-      console.log('ERROR: withdrawalStatus', error);
-      return error;
-    });
-    console.log('************** END WITHDRAW ****************')
-  }
-  render() {console.log('HI STORE', this.state)
+  render() {
     return(
       <main className="container">
         <div className="pure-g">
@@ -163,15 +136,13 @@ class Admin extends Component {
               </Notification>
             ) : (
               <div>
-                <ContractBalance
+                {/* <ContractBalance
                   balance={this.state.contractBalance}
-                />
+                /> */}
                 <MarketplaceApprovals
                   approveApplication={this.approveApplication} 
                   allStores={this.state.storeArr}
                 />
-                <h3>Withdrawal requests</h3>
-                <input type="button" value="Withdraw" onClick={this.withdrawFunds} />
               </div>
             )}
           </div>

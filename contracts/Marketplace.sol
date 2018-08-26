@@ -42,6 +42,7 @@ contract Marketplace /* is Ownable */  {
   
     mapping (address => Store) public store; // Return details of a store
     mapping (uint => Asset) public asset; // Return details of an asset
+    mapping (address => uint) private sellerBalances;
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      *  Modifiers                                                  *
@@ -163,53 +164,77 @@ contract Marketplace /* is Ownable */  {
     function getSenderBalance() public view returns (uint) {
         return msg.sender.balance;
     }
-    
-    /** @dev Allows a buyer to buy an asset, owner cannot buy own asset
-      * @param _assetId Id of the asset to be bought.
-      * @param _buyerAddress The address of the buyer buying the asset.
-      */
-    function buyAsset(uint _assetId, address _buyerAddress) onlyBuyer(_assetId) public payable {
+
+    function buyAsset(address _seller, uint _assetId) onlyBuyer(_assetId) public payable returns (bool) {
         require(_assetId >= 0 && _assetId <= assetIdCounter); // Asset should exist 
 
-        if(!setOwner(_assetId, _buyerAddress)) {
+        if(!setOwner(_assetId, msg.sender)) {
             revert();
         } // Set the assets new owner
 
-        // Transfer funds
-        // If move of funds successful... update ownership
-        if (msg.sender.balance > asset[_assetId].price) {
-            address(this).transfer(asset[_assetId].price);
-            
+        if (msg.value > 0) {
+            sellerBalances[_seller] += msg.value; // Add amount to mapping seller account balance
+
             // Update balance of sellers store
             store[asset[_assetId].storeOwner].balance += asset[_assetId].price;
             
             // Update details of the asset sold
             asset[_assetId].sold = true;
-            asset[_assetId].buyer = _buyerAddress;
+            asset[_assetId].buyer = msg.sender;
+
+            return true;
         } else {
-            // setOwner(_assetId, asset[_assetId].storeOwner);
-            revert();
+            return false;
         }
+    }
+    
+    // function buyAsset(uint _assetId, address _buyerAddress) onlyBuyer(_assetId) public payable {
+    //     require(_assetId >= 0 && _assetId <= assetIdCounter); // Asset should exist 
+
+    //     if(!setOwner(_assetId, _buyerAddress)) {
+    //         revert();
+    //     } // Set the assets new owner
+
+    //     // Transfer funds
+    //     // If move of funds successful... update ownership
+    //     if (msg.sender.balance > asset[_assetId].price) {
+    //         address(this).transfer(asset[_assetId].price);
+            
+    //         // Update balance of sellers store
+    //         store[asset[_assetId].storeOwner].balance += asset[_assetId].price;
+            
+    //         // Update details of the asset sold
+    //         asset[_assetId].sold = true;
+    //         asset[_assetId].buyer = _buyerAddress;
+    //     } else {
+    //         // setOwner(_assetId, asset[_assetId].storeOwner);
+    //         revert();
+    //     }
+    // }
+
+    /** @dev Only seller can withdraw own funds. All funds mapped to address will be released 
+      */
+    function withdrawBalance() public {
+        uint amountToWithdraw = sellerBalances[msg.sender];
+        sellerBalances[msg.sender] = 0;
+        // The user's balance is already 0, so future invocations won't withdraw anything
+        msg.sender.transfer(amountToWithdraw);
     }
 
-    /** @dev Transfers ether to receiver address.
-      * @param _receiver An update of the name of the asset.
-      * @param _amount An update of the description of the asset.
-      */
-    function withdrawFunds(address _receiver, uint256 _amount) public onlyOwner payable {
-        // Check store balance is less than amount to be withdrawn
-        // if (store[msg.sender].balance < _amount) {
-        if (store[_receiver].balance < _amount) {
-            return;
-        }
-        // Decrease stores balance
-        // store[msg.sender].balance -= _amount;
-        store[_receiver].balance -= _amount;
+    // function withdrawFunds(address _receiver, uint256 _amount) public onlyOwner payable {
+    //     // Check store balance is less than amount to be withdrawn
+    //     // if (store[msg.sender].balance < _amount) {
+    //     if (store[_receiver].balance < _amount) {
+    //         return;
+    //     }
+    //     // Decrease stores balance
+    //     // store[msg.sender].balance -= _amount;
+    //     store[_receiver].balance -= _amount;
         
-        // Withdraw amount from contract
-        _receiver.transfer(_amount);
-        // msg.sender.transfer(msg.value);
-    }
+    //     // Withdraw amount from contract
+    //     _receiver.transfer(_amount);
+    //     // msg.sender.transfer(msg.value);
+    // }
 
     /** @dev Gets the contract account balance. Holds the proceeds of the assets bought in the marketplace.
       * @return uint256 Returns balance.

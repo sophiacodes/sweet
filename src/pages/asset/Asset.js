@@ -42,7 +42,8 @@ class Asset extends Component {
       value: toWeiAssetPriceConversion
     };
     console.log(assetDetails, buyerAddress, sendParams)
-    const buyStatus = await this.contracts.Marketplace.methods.buyAsset(assetDetails.assetId, buyerAddress).send(sendParams).then((receipt) => {
+    // const buyStatus = 
+    await this.contracts.Marketplace.methods.buyAsset(assetDetails.storeOwner, assetDetails.assetId).send(sendParams).then((receipt) => {
       console.log('buyStatus', receipt);
       // this.getAllStores();
       return receipt;

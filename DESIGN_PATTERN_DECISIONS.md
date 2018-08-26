@@ -4,7 +4,7 @@
 
 ### State Machine
 
-Function modifiers were used to model the states and guard against incorrect usage of the contract. The next setion below provides an example of it's usage in the Marketplace contract. 
+Function modifiers were used to model the states and guard against incorrect usage of the contract. The next setion below provides an example of it's usage in the Marketplace contract.
 
 ### Modifiers
 
@@ -40,6 +40,12 @@ function approveApplication(address _storeOwner) public onlyOwner {
 }
 ```
 
+A `private` mapping of the user balances also features in the contract. 
+
+```Solidity 
+mapping (address => uint) private sellerBalances;
+```
+
 ### Emergency Kill
 
 Contract self destruction is used for terminating a contract, which means removing it forever from the blockchain. Once destroyed, it’s not possible to invoke functions on the contract and no transactions will be logged in the ledger. 
@@ -69,8 +75,11 @@ contract Marketplace {
 
     ...
 
-    function withdraw(uint _amount, address _receiver) public payable {
-        _receiver.transfer(_amount);
+    function withdrawBalance() public {
+        uint amountToWithdraw = sellerBalances[msg.sender];
+        sellerBalances[msg.sender] = 0;
+        // The user's balance is already 0, so future invocations won't withdraw anything
+        msg.sender.transfer(amountToWithdraw);
     }
 }
 ```
