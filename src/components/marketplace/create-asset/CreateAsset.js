@@ -20,6 +20,11 @@ class CreateAsset extends Component {
         return (
             <div className="create-asset-container">
                 <h3>List an asset to sell</h3>
+                {Object.keys(this.props.createAssetStatus).length > 0 && (
+                    <div className={`alert-message ${(this.props.createAssetStatus.status || '').toLowerCase()}`}>
+                        <p>{this.props.createAssetStatus.message}</p>
+                    </div>
+                )}
                 <div className="create-asset">
                     <label htmlFor="asset-address">Asset contract address</label><br />
                     <input type="text" name="asset-address" onChange={this.onChangeAssetDetails} maxLength="42" />

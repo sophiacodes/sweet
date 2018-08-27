@@ -15,7 +15,9 @@ class Profile extends Component {
     this.state = {
       hasStoreAccount: null,
       allAssets: [],
-      inProgress: this.props.utilState.callInProgress
+      inProgress: this.props.utilState.callInProgress,
+      createAssetStatus: {},
+      withdrawStatus:{}
     };
     this.account = {from: this.props.accounts[0]};
   }
@@ -59,7 +61,8 @@ class Profile extends Component {
 
   createAsset = async (e) => {
     this.setState({
-      disableCreateAsset: true
+      disableCreateAsset: true,
+      createAssetStatus: {}
     })
     const { assetName, assetDescription, assetPrice, assetAddress } = e;
     const toWeiAssetPriceConversion = (parseFloat(assetPrice)) * 1000000000000000000;
@@ -80,15 +83,22 @@ class Profile extends Component {
       }
       this.props.createAsset(allAssets);
       this.setState({
-        disableCreateAsset: false
+        disableCreateAsset: false,
+        createAssetStatus: {
+          status: 'SUCCESS',
+          message: 'Item created successfully!'
+        }
       })
     })
     .catch((error) => {
       // return error;
       this.setState({
-        disableCreateAsset: false
+        disableCreateAsset: false,
+        createAssetStatus: {
+          status: 'ERROR',
+          message: error.message
+        }
       })
-      console.error(error);
     });
   }
 
@@ -135,11 +145,12 @@ class Profile extends Component {
     for (let i = 0; i < assetCount; i++) {
       const data = await this.contracts.Marketplace.methods.asset(i).call();
       if (data.storeOwner === this.props.accounts[0]) {
+        const toEtherConversion = data.price / 1000000000000000000;
         const asset = {
           storeOwner: data.storeOwner,
           name: data.name,
           description: data.description,
-          price: data.price,
+          price: parseFloat(toEtherConversion).toFixed(3),
           assetId: data.assetId,
           buyer: data.buyer,
           sold: data.sold
@@ -150,21 +161,39 @@ class Profile extends Component {
     this.props.createAsset(allAssets);
   }
 
-  withdrawFunds = async () => {  
-    console.log('************** WITHDRAW ****************')
+  withdrawFunds = async () => {
+    this.setState({
+      disabled: true,
+      withdrawStatus: {
+        status: 'PENDING',
+        message: 'Withdraw in progress...please confirm the transaction in MetaMask'
+      }
+    })
     const sendParams = {
       gas: 3000000
     };
-    console.log('************** START WITHDRAW ****************')
     await this.contracts.Marketplace.methods.withdrawBalance().send(sendParams)
     .then((receipt) => {
+      this.setState({
+        balance: 0,
+        disabled: true,
+        withdrawStatus: {
+          status: 'SUCCESS',
+          message: 'Withdraw successful!'
+        }
+      })
       return receipt;
     })
     .catch((error) => {
-      console.log('ERROR: withdrawalStatus', error);
+      this.setState({
+        disabled: false,
+        withdrawStatus: {
+          status: 'ERROR',
+          message: error.message
+        }
+      })
       return error;
     });
-    console.log('************** END WITHDRAW ****************')
   }
 
   render() {
@@ -187,6 +216,7 @@ class Profile extends Component {
                   withdrawBalance={this.withdrawFunds}
                   balance={this.state.balance}
                   disabled={this.state.disabled}
+                  withdrawStatus={this.state.withdrawStatus}
                 />
               </TabPanel>
               <TabPanel>
@@ -197,6 +227,7 @@ class Profile extends Component {
                         <CreateAsset 
                           disabled={this.state.disableCreateAsset}
                           onClick={this.createAsset}
+                          createAssetStatus={this.state.createAssetStatus}
                         />
                       </div>
                     ) : (

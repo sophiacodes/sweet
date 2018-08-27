@@ -19,11 +19,12 @@ class ActiveListings extends Component {
                     let t = '';
                     if (!item.sold) {
                         t = <p key={`asset-{i}`} className="asset-item">
-                            <span>{item.assetId}</span>
-                            <span>{item.name}</span>
-                            <span>{item.description}</span>
-                            <span>{item.price}</span>
-                             edit/delete/save</p>
+                                <span className="asset-id">{item.assetId}</span>
+                                <span className="asset-name">{item.name}</span>
+                                <span className="asset-description">{item.description}</span>
+                                <span className="asset-price">{item.price}</span>
+                                <span className="asset-buttons">edit / delete</span>
+                            </p>
                         return (
                             <div key={i} className="asset-row">
                                 {t}
@@ -41,12 +42,16 @@ class ActiveListings extends Component {
             </Notification>
         );
     }
-    
+
     render() {
         return (
             <div className="active-listings">
                 <h3>Active</h3>
                 <div>{this.state.active}</div>
+                <div>
+                    <hr />
+
+                </div>
             </div>
         )
     }

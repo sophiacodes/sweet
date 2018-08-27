@@ -8,6 +8,7 @@
 .create-asset input[type='number'] {
     width: 400px;
     padding: 10px;
+    border: 1px solid #999999;
 }
 .create-asset label {
     margin: 15px 0;

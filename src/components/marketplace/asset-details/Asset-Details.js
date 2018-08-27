@@ -18,7 +18,7 @@ class AssetDetails extends Component {
         return (
             <div className="asset-details-container">
                 {Object.keys(this.props.buyStatus).length > 0 && (
-                    <div className={(this.props.buyStatus.status || '').toLowerCase()}>
+                    <div className={`alert-message ${(this.props.buyStatus.status || '').toLowerCase()}`}>
                         <p>{this.props.buyStatus.message}</p>
                     </div>
                 )}

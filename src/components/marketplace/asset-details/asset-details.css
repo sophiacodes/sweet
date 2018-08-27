@@ -11,33 +11,33 @@
     color: #ffffff;
     font-family: 'Indie-Flower';
 }
-.asset-image {
+.asset-details-container .asset-image {
     width: 300px;
 }
-.asset-details {
+.asset-details-container .asset-details {
     margin-left: 50px;
     width: 550px;
 }
-.asset-details .asset-name {
+.asset-details-container .asset-details .asset-name {
     font-size: 1.5em;
 }
-.asset-details .asset-name,
-.asset-details .asset-description {
+.asset-details-container .asset-details .asset-name,
+.asset-details-container .asset-details .asset-description {
     display: block;
     margin-bottom: 20px;
 }
-.asset-details .asset-description {
+.asset-details-container .asset-details .asset-description {
     font-family: 'Work Sans Extra Light';
     line-height: 1.5;
 }
-.asset-details .buy-now-button {
+.asset-details-container .asset-details .buy-now-button {
     position: relative;
     top: -8px;
 }
-.asset-price {
+.asset-details-container .asset-price {
     font-size: 3em;
 }
-.asset-price .price {
+.asset-details-container .asset-price .price {
     font-family: "Work Sans Extra Light";
 }
 .buy-now-container {
@@ -51,22 +51,4 @@
 }
 .buy-now-container .buy-now {
     float: right;
-}
-.asset-details-container .success {
-    width: 100%;
-    padding: 1em;
-    margin: 1em 0;
-    border-radius: 15px;
-    background-color: #14d451;
-    color: #ffffff;
-    font-family: 'Work Sans Extra Light';
-}
-.asset-details-container .error {
-    width: 100%;
-    padding: 1em;
-    margin: 1em 0;
-    border-radius: 15px;
-    background-color: #ff3458;
-    color: #ffffff;  
-    font-family: 'Work Sans Extra Light';
 }

@@ -1,4 +1,5 @@
 .active-listings {
+    font-family: 'Work Sans Extra Light';
 }
 .active-listings .asset-row {
     display: block;
@@ -7,4 +8,26 @@
 }
 .active-listings .asset-item span {
     display: inline-block;
+}
+/* .active-listings .asset-id {
+    width: 10%;
+}
+.active-listings .asset-name {
+    width: 30%;
+}
+.active-listings .asset-description {
+    width: 40%;
+}
+.active-listings .asset-price {
+    width: 10%;
+}
+.active-listings .asset-buttons {
+    width: 20%;
+} */
+.active-listings .asset-description {
+    text-overflow: ellipsis;
+    width: 165px;
+    height: 20px;
+    overflow: hidden;
+    white-space: nowrap;
 }

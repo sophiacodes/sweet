@@ -15,7 +15,6 @@ class Asset extends Component {
     }
   }
   componentWillMount() {
-    console.log('capture link params', this.props.params.assetId)
     this.getAssetDetails();
   }
   getAssetDetails = async () => {
@@ -47,8 +46,7 @@ class Asset extends Component {
       gas: 3000000,
       value: toWeiAssetPriceConversion
     };
-    console.log(assetDetails, buyerAddress, sendParams)
-    // const buyStatus = 
+
     await this.contracts.Marketplace.methods.buyAsset(assetDetails.storeOwner, assetDetails.assetId).send(sendParams)
     .then((receipt) => {
       this.setState({
@@ -58,8 +56,6 @@ class Asset extends Component {
           message: 'Thank you! Your purchase is successful!'
         }
       })
-      console.log('buyStatus', receipt);
-      // this.getAllStores();
       return receipt;
     })
     .catch((error) => {

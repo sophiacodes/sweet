@@ -10,3 +10,7 @@
 .profile-balance .withdraw-container {
     margin-top: 2em;
 }
+.profile-balance .alert-message p {
+    margin: 0;
+    font-size: 1.2em;
+}

@@ -152,6 +152,28 @@ ul li:not(:last-child) {
   border: 1px solid darkgreen;
 }
 
+.alert-message {
+  width: 100%;
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 15px;
+  color: #ffffff;
+  font-family: 'Work Sans Extra Light';
+  box-sizing: border-box;
+}
+
+.alert-message.success {
+  background-color: #14d451;
+}
+
+.alert-message.error {
+  background-color: #ff3458;
+}
+
+.alert-message.pending {
+  background-color: #00b6ff;
+}
+
 /* REACT TABS */
 
 .tabs {
