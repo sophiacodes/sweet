@@ -9,18 +9,8 @@ class SoldListings extends Component {
         })
     }
     soldAssets = () => {
-        /*
-         storeOwner: data.storeOwner,
-          name: data.name,
-          description: data.description,
-          price: data.price,
-          assetId: data.assetId,
-          buyer: data.buyer,
-          sold: data.sold
-        */
         // name, store id, decription, price, edit button, delete button, update button
         if (typeof this.props.allAssets !== 'undefined') { 
-            // const sold = this.props.allAssets;
             const onlySold = this.props.allAssets.filter(asset => asset.sold === true);
             if (onlySold.length > 0) {
                 const displayListings = onlySold.map((item, i) => {

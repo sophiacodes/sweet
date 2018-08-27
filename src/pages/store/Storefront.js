@@ -14,7 +14,6 @@ class Storefront extends Component {
   }
 
   componentWillMount() {
-    console.log('capture link params', this.props.params.storeId)
     this.getAssets();
   }
 
@@ -39,26 +38,7 @@ class Storefront extends Component {
     this.setState({
       allAssets
     })
-    console.log('thi.s', this.state)
   }
-  // getAllStores = async () => {console.log(this.contracts)
-  //   const getStores = await this.contracts.Marketplace.methods.getAllStores().call();
-  //   let allStores = [];
-  //   for (let i = 0; i < getStores.length; i++) {
-  //     const data = await this.contracts.Marketplace.methods.store(getStores[i]).call();
-  //     const store = {
-  //       approved: data.approved,
-  //       balance: data.balance,
-  //       name: data.name,
-  //       owner: data.owner,
-  //       storeId: data.storeId
-  //     };
-  //     allStores = [ ...allStores, store ];
-  //   }
-  //   this.setState({
-  //     allStores
-  //   })
-  // }
 
   getStoreDetails = async () => {
     const storeOwnerAddress = this.storeId;

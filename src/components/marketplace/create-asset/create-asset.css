@@ -1,0 +1,22 @@
+.create-asset-container {
+    font-family: 'Work Sans Extra Light';
+}
+.create-asset {
+    text-align: center;
+}
+.create-asset input[type='text'],
+.create-asset input[type='number'] {
+    width: 400px;
+    padding: 10px;
+}
+.create-asset label {
+    margin: 15px 0;
+    display: inline-block;
+}
+.create-asset textarea {
+    resize: none;
+    line-height: 1.25;
+}
+.create-asset .button {
+    margin-top: 1em;
+}

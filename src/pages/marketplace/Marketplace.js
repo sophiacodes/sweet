@@ -4,9 +4,8 @@ import FeaturedStores from '../../components/marketplace/featured-stores/Feature
 import StoreAssets from '../../components/marketplace/store-assets/Store-Assets'
 
 class Marketplace extends Component {
-  constructor(props, context, { authData }) {
+  constructor(props, context) {
     super(props)
-    authData = this.props
     this.contracts = context.drizzle.contracts;
     this.state = {
       allStores: [],
@@ -16,7 +15,7 @@ class Marketplace extends Component {
   componentWillMount() {
     this.getAllStores();
   }
-  getAllStores = async () => {console.log(this.contracts)
+  getAllStores = async () => {
     const getStores = await this.contracts.Marketplace.methods.getAllStores().call();
     let allStores = [];
     for (let i = 0; i < getStores.length; i++) {

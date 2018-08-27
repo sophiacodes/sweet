@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Notification from '../../../src/components/core/notification/Notification'
 import MarketplaceApprovals from '../../../src/components/marketplace/marketplace-approvals/Marketplace-Approvals';
-// import ContractBalance from '../../../src/components/marketplace/contract-balance/ContractBalance';
 
 class Admin extends Component {
   constructor(props, context) {
@@ -13,16 +12,17 @@ class Admin extends Component {
       contractBalance: 0
     }
   }
-// *** DETECT CHANGE WHEN WALLET ADDRESS CHANGES ***
+  // *** DETECT CHANGE WHEN WALLET ADDRESS CHANGES ***
   componentWillMount() {
     this.checkAdminRights();
   }
+
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps - nextProps', nextProps)
     this.setState({
       storeArr: nextProps.marketplaceState.allStores
     });
   }
+
   checkAdminRights = async () => {
     const admin = await this.contracts.Marketplace.methods.admin().call();
     if (admin && admin !== this.props.accounts[0]) {
@@ -30,22 +30,16 @@ class Admin extends Component {
     } else {
       // Get all stores for approval
       this.getAllStores();
-      // this.getContractBalance();
     }
   }
 
   getAllStores = async () => {
-    
-    console.log(this.contracts)
     const getStores = await this.contracts.Marketplace.methods.getAllStores().call();
-
-    console.log('** all stores...', getStores);
     let allStores = [];
     for (let i = 0; i < getStores.length; i++) {
       const data = await this.contracts.Marketplace.methods.store(getStores[i]).call();
       const store = {
         approved: data.approved,
-        balance: data.balance,
         name: data.name,
         owner: data.owner,
         storeId: data.storeId
@@ -65,24 +59,20 @@ class Admin extends Component {
   }
 
   approveApplication = async (storeDetails) => {
-    /*
-    // JUST AN EXAMPLE
-    let payload = {
-      name: "my layout",
-      pictures: 12,
-      medium: { charcoal: "yes", paper: "60LBS" }
-    };
-    // Dispatch the saga action to add a new layout!
-    // dispatch({type: "LAYOUT_ADD"}, payload);
-    this.props.approve(payload); 
-    */
-      await this.contracts.Marketplace.methods.approveApplication(storeDetails[1]).send().then((data) => {
-        this.getAllStores();
-        return data;
-      })
-      .catch((error) => {
-        return error;
-      });
+    await this.contracts.Marketplace.methods.approveApplication(storeDetails.owner).send()
+    .then((data) => {
+      const approvedStore = {approved: true, name: storeDetails.name, owner: storeDetails.owner, storeId: storeDetails.storeId};
+      const addStore = [...this.state.storeArr, approvedStore];
+      this.props.getStores(addStore);
+      return data;
+    })
+    .then((result) => {
+      this.getAllStores();
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
   }
 
   render() {
@@ -91,7 +81,7 @@ class Admin extends Component {
         <div className="pure-g">
           <div className="pure-u-1-1">
             <h2 className="page-title">Admin</h2>
-            {this.state.storeArr.length === 0 ? (
+            {(typeof this.state.storeArr !== 'undefined' && this.state.storeArr.length === 0) ? (
               <Notification>
                 <p><strong>No stores available</strong></p>
                 <p>(When stores are created they will appear here for approval)</p>

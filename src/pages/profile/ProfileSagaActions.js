@@ -1,4 +1,3 @@
-// import { delay } from 'redux-saga'
 import { put, takeLatest } from 'redux-saga/effects'
 
 export function * getSellerStore(sellerStore) {

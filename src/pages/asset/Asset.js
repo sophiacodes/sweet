@@ -9,7 +9,9 @@ class Asset extends Component {
     authData = this.props
     this.contracts = context.drizzle.contracts;
     this.state = {
-      assetDetails: {}
+      assetDetails: {},
+      disabled: false,
+      buyStatus: {}
     }
   }
   componentWillMount() {
@@ -24,7 +26,7 @@ class Asset extends Component {
       storeOwner: data.storeOwner,
       name: data.name,
       description: data.description,
-      price: toEtherAssetPriceConversion,
+      price: parseFloat(toEtherAssetPriceConversion).toFixed(3),
       assetId: data.assetId,
       buyer: data.buyer,
       sold: data.sold
@@ -34,6 +36,10 @@ class Asset extends Component {
     })
   }
   buyNow = async (assetDetails) => {
+    this.setState({
+      disabled: true,
+      buyStatus: {}
+    })
     const buyerAddress = this.props.accounts[0];
     const toWeiAssetPriceConversion = parseFloat(assetDetails.price) * 1000000000000000000;
     const sendParams = {
@@ -43,12 +49,27 @@ class Asset extends Component {
     };
     console.log(assetDetails, buyerAddress, sendParams)
     // const buyStatus = 
-    await this.contracts.Marketplace.methods.buyAsset(assetDetails.storeOwner, assetDetails.assetId).send(sendParams).then((receipt) => {
+    await this.contracts.Marketplace.methods.buyAsset(assetDetails.storeOwner, assetDetails.assetId).send(sendParams)
+    .then((receipt) => {
+      this.setState({
+        disabled: true,
+        buyStatus: {
+          status: 'SUCCESS',
+          message: 'Thank you! Your purchase is successful!'
+        }
+      })
       console.log('buyStatus', receipt);
       // this.getAllStores();
       return receipt;
     })
     .catch((error) => {
+      this.setState({
+        disabled: false,
+        buyStatus: {
+          status: 'ERROR',
+          message: error.message
+        }
+      })
       return error;
     });
   }
@@ -58,15 +79,15 @@ class Asset extends Component {
         <div className="pure-g">
           <div className="pure-u-1-1">
             <h2 className="page-title">Asset Details</h2>
-            <p>Notification message area</p>
           </div>
           <div className="pure-u-1-1">
-            <h3>[Name of store]</h3>
-            <Link to={`/store/${this.props.params.storeId}`}><span className="chevron">&lt;</span>Back to store</Link>
+            <Link className="back-to-store" to={`/store/${this.props.params.storeId}`}><span className="chevron">&lt;</span>Back to store</Link>
             {this.state.assetDetails && (
               <AssetDetails 
                 assetDetails={this.state.assetDetails}
                 onClick={this.buyNow}
+                disabled={this.state.disabled}
+                buyStatus={this.state.buyStatus}
               />
             )}
           </div>

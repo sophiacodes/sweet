@@ -13,9 +13,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    approve: (id) => {console.log('WORK!!'); dispatch({ type: "APPROVE_APPLICATION", id })},
-    getStores: (allStores) => {console.log('ALL STORES!!'); dispatch({ type: "GET_ALL_STORES", allStores })}
-    // example: (test) => {console.log('TESTTTT', test); dispatch({type: "LAYOUT_ADD", payload: test})}
+    approve: (id) => { dispatch({ type: "APPROVE_APPLICATION", id })},
+    getStores: (allStores) => { dispatch({ type: "GET_ALL_STORES", allStores })}
   }
 }
 

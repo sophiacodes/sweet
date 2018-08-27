@@ -37,3 +37,13 @@ Connect MetaMask to the local blockchain created by Ganache. Click the menu that
 npm start
 ```
 The Dapp will automagically open in a new tab in your browser on `http://localhost:3000`
+
+![alt text](https://github.com/sophiacodes/sweet/blob/master/public/images/home-page-screenshot.png)
+
+![alt text](https://github.com/sophiacodes/sweet/blob/master/public/images/asset-page-screenshot.png)
+
+## Additional information
+
+Image source [CryptoKittes](https://www.cryptokitties.co/)
+
+This Dapp is a demo which is WIP, thus incomplete and is NOT FOR PRODUCTION.

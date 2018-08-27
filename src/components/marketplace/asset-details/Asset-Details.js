@@ -17,6 +17,11 @@ class AssetDetails extends Component {
         const imageNo = this.props.assetDetails.assetId;
         return (
             <div className="asset-details-container">
+                {Object.keys(this.props.buyStatus).length > 0 && (
+                    <div className={(this.props.buyStatus.status || '').toLowerCase()}>
+                        <p>{this.props.buyStatus.message}</p>
+                    </div>
+                )}
                 <div className="asset-image">
                     <img src={images[`copy-kitty0${imageNo}.svg`]} role="presentation" width="300" />
                 </div>
@@ -26,7 +31,7 @@ class AssetDetails extends Component {
     
                     <div className="buy-now-container">
                         <div className="asset-price">&Xi; <span className="price">{this.props.assetDetails.price}</span></div>
-                        <div className="buy-now"><input type="button" value="Buy now" className="buy-now-button" onClick={this.buyNow} /></div>
+                        <div className="buy-now"><input type="button" value="Buy now" className="buy-now-button button" disabled={this.props.disabled} onClick={this.buyNow} /></div>
                     </div>
                 </div>
             </div>

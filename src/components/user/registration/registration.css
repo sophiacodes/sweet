@@ -1,0 +1,13 @@
+.registration {
+    font-family: 'Work Sans Extra Light';
+    text-align: center;
+}
+.registration p {
+    margin: 1em 0;
+    font-size: 1.6em;
+}
+.registration .store-name-field {
+    padding: 10px;
+    margin: 0 1em;
+    width: 20em;
+}

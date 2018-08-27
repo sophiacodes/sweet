@@ -3,8 +3,7 @@ import Notification from '../../core/notification/Notification'
 import './marketplace-approvals.css'
 
 const Approved = (props) => {
-  // console.log(props)
-  const approvedDisplay = (props.approved.length === 0) 
+  const approvedDisplay = (typeof props.approved !== 'undefined' && props.approved.length === 0) 
     ? <Notification>
         <p>No stores approved</p>
       </Notification> 
@@ -44,7 +43,6 @@ const Approved = (props) => {
 };
 
 const PendingApproval = (props) => {
-  // console.log(props)
   const pendingApprovalDisplay = (props.pendingApproval.length === 0) 
     ? <Notification>
         <p>No stores pending approval</p>
@@ -56,7 +54,7 @@ const PendingApproval = (props) => {
           <td>{item.name}</td>
           <td>Awaiting approval</td>
           <td>[Date/time]</td>
-          <td><input type="button" onClick={(e) => props.approveStore([item.storeId, item.owner], e)} value="Approve" /></td>
+          <td><input type="button" onClick={(e) => props.approveStore(item, e)} value="Approve" /></td>
         </tr>
       )
     })
@@ -103,11 +101,13 @@ class MarketplaceApprovals extends Component {
     let approved = [];
     let pendingApproval = [];
 
-    for (let i = 0; i < allStores.length; i++) {
-      if (allStores[i].approved) {
-        approved = [...approved, allStores[i]];
-      } else {
-        pendingApproval = [...pendingApproval, allStores[i]]
+    if (typeof allStores !== 'undefined') {
+      for (let i = 0; i < allStores.length; i++) {
+        if (allStores[i].approved) {
+          approved = [...approved, allStores[i]];
+        } else {
+          pendingApproval = [...pendingApproval, allStores[i]]
+        }
       }
     }
 

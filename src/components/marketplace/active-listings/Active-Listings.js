@@ -9,18 +9,9 @@ class ActiveListings extends Component {
             active
         })
     }
+
     activeAssets = () => {
-        /*
-         storeOwner: data.storeOwner,
-          name: data.name,
-          description: data.description,
-          price: data.price,
-          assetId: data.assetId,
-          buyer: data.buyer,
-          sold: data.sold
-        */
         // name, store id, decription, price, edit button, delete button, update button
-        
         if (typeof this.props.allAssets !== 'undefined') { 
             const onlyActive = this.props.allAssets.filter(asset => asset.sold === false);
             if (onlyActive.length > 0) {
@@ -50,6 +41,7 @@ class ActiveListings extends Component {
             </Notification>
         );
     }
+    
     render() {
         return (
             <div className="active-listings">

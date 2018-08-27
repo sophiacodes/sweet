@@ -1,0 +1,12 @@
+.profile-balance {
+    text-align: center;
+}
+.profile-balance h4, 
+.profile-balance p {
+    font-family: 'Work Sans Extra Light';
+    margin: 2em 0;
+    font-size: 1.6em;
+}
+.profile-balance .withdraw-container {
+    margin-top: 2em;
+}

@@ -26,15 +26,11 @@
     display: block;
     margin-bottom: 20px;
 }
+.asset-details .asset-description {
+    font-family: 'Work Sans Extra Light';
+    line-height: 1.5;
+}
 .asset-details .buy-now-button {
-    background-color: #ff00b6;
-    color: white;
-    border-radius: 50px;
-    padding: 15px 30px;
-    text-decoration: none;
-    display: inline-block;
-    font-family: "Work Sans Extra Light";
-    font-size: 28px;
     position: relative;
     top: -8px;
 }
@@ -55,4 +51,22 @@
 }
 .buy-now-container .buy-now {
     float: right;
+}
+.asset-details-container .success {
+    width: 100%;
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 15px;
+    background-color: #14d451;
+    color: #ffffff;
+    font-family: 'Work Sans Extra Light';
+}
+.asset-details-container .error {
+    width: 100%;
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 15px;
+    background-color: #ff3458;
+    color: #ffffff;  
+    font-family: 'Work Sans Extra Light';
 }

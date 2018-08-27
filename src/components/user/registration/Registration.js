@@ -1,0 +1,29 @@
+import React from 'react';
+import './registration.css'
+
+const Registration = ({...props}) => {
+    return (
+        <div className="registration">
+            <h3>Register</h3>
+            <p>You do not have an account to sell, please register</p>
+            <label htmlFor="storeName"> Enter a store name: </label>
+            <input 
+                type="text" 
+                name="storeName" 
+                className="store-name-field"
+                onChange={props.storeNameUpdated} 
+                maxLength="100"
+            />
+            <button 
+                type="submit"
+                className="button" 
+                onClick={props.createStore} 
+                disabled={props.disabled}
+            >
+                Register
+            </button>
+        </div>
+    )
+}
+
+export default Registration;

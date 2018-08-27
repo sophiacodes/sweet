@@ -6,6 +6,7 @@ import storefrontReducer from '../src/pages/store/storefrontReducer'
 import assetReducer from '../src/pages/asset/assetReducer'
 import profileReducer from '../src/pages/profile/profileReducer'
 import homeReducer from '../src/pages/home/homeReducer'
+import utilReducer from '../src/util/utilReducer'
 
 const reducer = combineReducers({
   routing: routerReducer,
@@ -14,7 +15,8 @@ const reducer = combineReducers({
   home: homeReducer,
   asset: assetReducer,
   profile: profileReducer,
-  storefront: storefrontReducer
+  storefront: storefrontReducer,
+  util: utilReducer
 })
 
 export default reducer

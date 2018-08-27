@@ -28,6 +28,7 @@ code {
 .container {
   box-sizing: border-box;
   margin: 0 auto;
+  min-height: 500px;
 }
 
 .page-title {
@@ -59,6 +60,37 @@ ul li:not(:last-child) {
   margin-bottom: 15px;
 }
 
+.button {
+  background-color: #ff00b6;
+  color: white;
+  border-radius: 50px;
+  padding: 15px 30px;
+  text-decoration: none;
+  display: inline-block;
+  font-family: "Work Sans Extra Light";
+  font-size: 28px;
+}
+
+.button:disabled{
+  background-color: #b1b1b1;
+}
+
+.back-to-store {
+  color: #000000;
+  font-family: 'Work Sans Extra Light';
+  text-decoration: none;
+  font-size: 1.4em;
+  display: block;
+  margin-bottom: 1em;
+}
+.back-to-store:hover {
+  color: #ff00cb;
+}
+.back-to-store .chevron {
+  color: #ff00cb;
+  font-family: 'Indie-Flower';
+  margin-right: .4em;
+}
 /* NAVBAR */
 
 .navbar {
@@ -122,6 +154,9 @@ ul li:not(:last-child) {
 
 /* REACT TABS */
 
+.tabs {
+  margin-top: 2em;
+}
 .tabs,
 .tab-list {
   display: inline-block;

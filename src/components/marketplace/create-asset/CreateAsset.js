@@ -3,13 +3,11 @@ import './create-asset.css'
 
 class CreateAsset extends Component {
     onChangeAssetDetails = (e) => {
-        console.log(e.target.name, e.target.value)
         this.setState({
             [e.target.name]: e.target.value
         })
     }
     createItem = () => {
-        console.log(this.state)
         const assetDetails = {
             assetName: this.state['asset-name'],
             assetDescription: this.state['asset-description'],
@@ -20,22 +18,36 @@ class CreateAsset extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="create-asset-container">
                 <h3>List an asset to sell</h3>
-                <div>
-                    <label htmlFor="asset-address">Asset address (contract address)</label><br />
+                <div className="create-asset">
+                    <label htmlFor="asset-address">Asset contract address</label><br />
                     <input type="text" name="asset-address" onChange={this.onChangeAssetDetails} maxLength="42" />
                     <br /><br />
                     <label htmlFor="asset-name">Name</label><br />
-                    <input type="text" name="asset-name" onChange={this.onChangeAssetDetails} />
+                    <input type="text" name="asset-name" onChange={this.onChangeAssetDetails} maxLength="50" />
                     <br /><br />
                     <label htmlFor="asset-description">Description</label><br />
-                    <input type="text" name="asset-description" onChange={this.onChangeAssetDetails} />
+                    <textarea 
+                        type="text" 
+                        name="asset-description" 
+                        onChange={this.onChangeAssetDetails} 
+                        maxLength="250" 
+                        rows="4" 
+                        cols="50"
+                    />
                     <br /><br />
-                    <label htmlFor="asset-price">&Xi;</label><br />
+                    <label htmlFor="asset-price">ETH</label><br />
                     <input type="number" name="asset-price" onChange={this.onChangeAssetDetails} />
                     <br />
-                    <input type="button" name="list-asset" value="Create item" onClick={this.createItem} />
+                    <input 
+                        type="button" 
+                        className="button"
+                        name="list-asset" 
+                        value="Create item" 
+                        disabled={this.props.disabled}
+                        onClick={this.createItem} 
+                    />
                 </div>
             </div>
         )

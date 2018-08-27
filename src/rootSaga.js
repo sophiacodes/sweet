@@ -1,24 +1,12 @@
 import { all, fork } from 'redux-saga/effects'
 import { drizzleSagas } from 'drizzle'
-// import * as actions from './actions'
 import adminSaga from '../src/pages/admin/AdminSagaActions'
 import profileSaga from '../src/pages/profile/ProfileSagaActions'
 import homeSaga from '../src/pages/home/HomeSagaActions'
 import marketplaceSaga from '../src/pages/marketplace/MarketplaceSagaActions'
 import assetSaga from '../src/pages/asset/AssetSagaActions'
 import storefrontSaga from '../src/pages/store/StorefrontSagaActions'
-
-// export function* helloSaga() {
-//   console.log('Hello Saga!')
-// }
-
-// export function* watchApproveApplication() {
-//   yield takeEvery('APPROVE_APPLICATION', AdminActions.approveApplication)
-// }
-
-// export function* watchGetAllStores() {
-//   yield takeEvery('GET_ALL_STORES', AdminActions.getAllStores)
-// }
+import utilSaga from '../src/util/utilSagaActions'
 
 export default function* root() {
   yield all([
@@ -28,10 +16,8 @@ export default function* root() {
     fork(homeSaga),
     fork(marketplaceSaga),
     fork(assetSaga),
-    fork(storefrontSaga)
-    // helloSaga(),
-    // watchApproveApplication(),
-    // watchGetAllStores()
+    fork(storefrontSaga),
+    fork(utilSaga)
   ])
 }
 

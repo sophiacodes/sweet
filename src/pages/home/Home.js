@@ -13,7 +13,7 @@ class Home extends Component {
   componentWillMount() {
     this.getAllStores();
   }
-  getAllStores = async () => {console.log(this.contracts)
+  getAllStores = async () => {
     const getStores = await this.contracts.Marketplace.methods.getAllStores().call();
     let allStores = [];
     for (let i = 0; i < getStores.length; i++) {
