@@ -7,10 +7,14 @@
     width: 100%;
 }
 .marketplace-approvals table th:nth-child(1) {
+    width: 8%;
 }
 .marketplace-approvals table th:nth-child(2),
 .marketplace-approvals table th:nth-child(3) {
-    width: 30%;
+    width: 20%;
+}
+.marketplace-approvals table th:nth-child(4) {
+    width: 35%;
 }
 .marketplace-approvals table td, 
 .marketplace-approvals table th {
@@ -37,4 +41,7 @@
 .marketplace-approvals table .chevron {
     color: #ff00cb;
     font-family: 'Indie-Flower';
+}
+.marketplace-approvals table.approved-stores td {
+    padding: .8em 0;
 }

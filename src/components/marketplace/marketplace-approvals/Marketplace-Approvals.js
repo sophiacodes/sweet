@@ -26,7 +26,7 @@ const Approved = (props) => {
       {props.approved.length === 0 ? (
         <div>{approvedDisplay}</div>
       ) : (
-        <table className="">
+        <table className="approved-stores">
           <thead>
             <tr>
               <th>ID</th>
@@ -56,7 +56,7 @@ const PendingApproval = (props) => {
           <td>{item.storeId}</td>
           <td>{item.name}</td>
           <td>Awaiting approval</td>
-          <td>[Date/time]</td>
+          <td>{item.timestamp}</td>
           <td className="approve">
             <input 
               type="button" 

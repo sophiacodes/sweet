@@ -41,11 +41,14 @@ class Admin extends Component {
     let allStores = [];
     for (let i = 0; i < getStores.length; i++) {
       const data = await this.contracts.Marketplace.methods.store(getStores[i]).call();
+      const date = new Date(data.timestamp * 1000);
+      const dateFormatted = data.timestamp === '0' ? '-' : date.toString();
       const store = {
         approved: data.approved,
         name: data.name,
         owner: data.owner,
-        storeId: data.storeId
+        storeId: data.storeId,
+        timestamp: dateFormatted
       };
       allStores = [ ...allStores, store ];
     }
