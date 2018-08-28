@@ -58,13 +58,13 @@ class Profile extends Component {
           this.props.callInProgress(true);
           // HasAccount set to true, update store
           this.props.hasAccount(true);
-          this.setState({
-            disableRegistration: true,
-            registerStatus: {
-              status: 'SUCCESS',
-              message: 'Registration successful'
-            }
-          })
+          // this.setState({
+          //   disableRegistration: true,
+          //   registerStatus: {
+          //     status: 'SUCCESS',
+          //     message: 'Registration successful'
+          //   }
+          // })
       })
       .catch((error) => {
           this.props.hasAccount(false);
