@@ -75,6 +75,16 @@ ul li:not(:last-child) {
   background-color: #b1b1b1;
 }
 
+.button.small-button {
+  font-size: 1.2em;
+  padding: 7px 15px;
+}
+
+.button.medium-button {
+  font-size: 1.6em;
+  padding: 9px 18px;
+}
+
 .back-to-store {
   color: #000000;
   font-family: 'Work Sans Extra Light';
@@ -83,14 +93,17 @@ ul li:not(:last-child) {
   display: block;
   margin-bottom: 1em;
 }
+
 .back-to-store:hover {
   color: #ff00cb;
 }
+
 .back-to-store .chevron {
   color: #ff00cb;
   font-family: 'Indie-Flower';
   margin-right: .4em;
 }
+
 /* NAVBAR */
 
 .navbar {
@@ -173,7 +186,12 @@ ul li:not(:last-child) {
 .alert-message.pending {
   background-color: #00b6ff;
 }
-
+.alert-message p {
+  overflow: hidden;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  padding: 2px 0;
+}
 /* REACT TABS */
 
 .tabs {

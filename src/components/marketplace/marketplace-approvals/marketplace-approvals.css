@@ -1,3 +1,40 @@
-.marketplace-approvals {
-    
+.marketplace-approvals h3 {
+    padding-top: 1em;
+}
+.marketplace-approvals table {
+    font-family: 'Work Sans Extra Light';
+    margin: 2em 0;
+    width: 100%;
+}
+.marketplace-approvals table th:nth-child(1) {
+}
+.marketplace-approvals table th:nth-child(2),
+.marketplace-approvals table th:nth-child(3) {
+    width: 30%;
+}
+.marketplace-approvals table td, 
+.marketplace-approvals table th {
+    text-align: left;
+    padding: .2em;
+}
+.marketplace-approvals table th {
+    font-weight: bold;
+    padding-bottom: 1em;
+}
+.marketplace-approvals table td.approve {
+    text-align: right;
+}
+.marketplace-approvals table .view-store {
+    text-align: right;
+}
+.marketplace-approvals table .store-link {
+    color: #00000;
+    text-decoration: none;
+}
+.marketplace-approvals table .store-link:hover {
+    color: #ff00cb;
+}
+.marketplace-approvals table .chevron {
+    color: #ff00cb;
+    font-family: 'Indie-Flower';
 }

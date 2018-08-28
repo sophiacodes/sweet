@@ -29,7 +29,7 @@ class SoldListings extends Component {
         }
         return (
             <Notification>
-                <p>No assets sold</p>
+                <p>You have no sold assets</p>
             </Notification>
         );
     }

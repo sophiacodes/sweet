@@ -3,11 +3,14 @@
     text-align: center;
 }
 .registration p {
-    margin: 1em 0;
-    font-size: 1.6em;
+    margin: 4em 0 2em;
+    font-size: 1.2em;
 }
 .registration .store-name-field {
     padding: 10px;
     margin: 0 1em;
     width: 20em;
+}
+.registration .alert-message p {
+    margin: 0;
 }

@@ -9,10 +9,13 @@ class Admin extends Component {
     this.contracts = context.drizzle.contracts;
     this.state = {
       storeArr: [],
-      contractBalance: 0
+      contractBalance: 0,
+      approvalStatus: {}
     }
   }
-  // *** DETECT CHANGE WHEN WALLET ADDRESS CHANGES ***
+
+  // *** TODO: DETECT CHANGE WHEN WALLET ADDRESS CHANGES ***
+
   componentWillMount() {
     this.checkAdminRights();
   }
@@ -59,11 +62,25 @@ class Admin extends Component {
   }
 
   approveApplication = async (storeDetails) => {
+    this.setState({
+      disableApproval: true,
+      approvalStatus: {
+        status: 'PENDING',
+        message: 'Approval pending, please confirm the transaction in MetaMask'
+      }
+    })
     await this.contracts.Marketplace.methods.approveApplication(storeDetails.owner).send()
     .then((data) => {
       const approvedStore = {approved: true, name: storeDetails.name, owner: storeDetails.owner, storeId: storeDetails.storeId};
       const addStore = [...this.state.storeArr, approvedStore];
       this.props.getStores(addStore);
+      this.setState({
+        disableApproval: false,
+        approvalStatus: {
+          status: 'SUCCESS',
+          message: 'Approval successful'
+        }
+      })
       return data;
     })
     .then((result) => {
@@ -71,6 +88,13 @@ class Admin extends Component {
       return result;
     })
     .catch((error) => {
+      this.setState({
+        disableApproval: false,
+        approvalStatus: {
+          status: 'ERROR',
+          message: error.message
+        }
+      })
       return error;
     });
   }
@@ -94,6 +118,8 @@ class Admin extends Component {
                 <MarketplaceApprovals
                   approveApplication={this.approveApplication} 
                   allStores={this.state.storeArr}
+                  disableApproval={this.state.disableApproval}
+                  approvalStatus={this.state.approvalStatus}
                 />
               </div>
             )}

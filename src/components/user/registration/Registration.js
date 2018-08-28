@@ -5,6 +5,11 @@ const Registration = ({...props}) => {
     return (
         <div className="registration">
             <h3>Register</h3>
+            {/* {Object.keys(props.registerStatus).length > 0 && (
+                <div className={`alert-message ${(props.registerStatus.status || '').toLowerCase()}`}>
+                    <p>{props.registerStatus.message}</p>
+                </div>
+            )} */}
             <p>You do not have an account to sell, please register</p>
             <label htmlFor="storeName"> Enter a store name: </label>
             <input 
@@ -16,7 +21,7 @@ const Registration = ({...props}) => {
             />
             <button 
                 type="submit"
-                className="button" 
+                className="button medium-button" 
                 onClick={props.createStore} 
                 disabled={props.disabled}
             >

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import Notification from '../../core/notification/Notification'
 import './marketplace-approvals.css'
 
 const Approved = (props) => {
   const approvedDisplay = (typeof props.approved !== 'undefined' && props.approved.length === 0) 
     ? <Notification>
-        <p>No stores approved</p>
+        <p>There are stores awaiting approval</p>
       </Notification> 
     : (props.approved).map((item, i) => {
       return (
@@ -13,8 +14,10 @@ const Approved = (props) => {
           <td>{item.storeId}</td>
           <td>{item.name}</td>
           <td>Approved</td>
-          <td>[Date/time]</td>
-          <td>[view store Button]</td>
+          <td>{item.timestamp}</td>
+          <td className="view-store">
+            <Link className="store-link" to={`/store/${item.owner}`}>View store <span className="chevron">&gt;</span></Link>
+          </td>
         </tr>
       )
     })
@@ -30,7 +33,7 @@ const Approved = (props) => {
               <th>Store Name</th>
               <th>Status</th>
               <th>Seller Since</th>
-              <th>Approve</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -54,7 +57,15 @@ const PendingApproval = (props) => {
           <td>{item.name}</td>
           <td>Awaiting approval</td>
           <td>[Date/time]</td>
-          <td><input type="button" onClick={(e) => props.approveStore(item, e)} value="Approve" /></td>
+          <td className="approve">
+            <input 
+              type="button" 
+              className="button small-button" 
+              onClick={(e) => props.approveStore(item, e)} 
+              value="Approve"
+              disabled={props.disableApproval}
+            />
+          </td>
         </tr>
       )
     })
@@ -70,7 +81,7 @@ const PendingApproval = (props) => {
               <th>Store Name</th>
               <th>Status</th>
               <th>Seller Since</th>
-              <th>Approve</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -90,13 +101,15 @@ class MarketplaceApprovals extends Component {
       pendingApproval: []
     }
   }
+
   componentWillMount() {
     this.storeStatues(this.props.allStores)
   }
+
   componentWillReceiveProps(nextProps) {
-    console.log(' MARKET APPROVEAL nextProps', nextProps)
     this.storeStatues(nextProps.allStores)
   }
+
   storeStatues = (allStores) => {
     let approved = [];
     let pendingApproval = [];
@@ -123,10 +136,17 @@ class MarketplaceApprovals extends Component {
     return(
       <div className="marketplace-approvals">
         <h3>Awaiting approval</h3>
+        {Object.keys(this.props.approvalStatus).length > 0 && (
+          <div className={`alert-message ${(this.props.approvalStatus.status || '').toLowerCase()}`}>
+            <p>{this.props.approvalStatus.message}</p>
+          </div>
+        )}
         <PendingApproval 
           pendingApproval={this.state.pendingApproval}
           approveStore={this.approveStore}
+          disableApproval={this.props.disableApproval}
         />
+        <hr />
         <h3>Approved</h3>
         <Approved 
           approved={this.state.approved}

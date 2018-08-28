@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
-import Notification from '../../../src/components/core/notification/Notification'
+import RegistrationPending from '../../components/user/registration-pending/RegistrationPending'
 import Registration from '../../../src/components/user/registration/Registration'
 import CreateAsset from '../../components/marketplace/create-asset/CreateAsset'
 import ActiveListings from '../../components/marketplace/active-listings/Active-Listings'
@@ -17,7 +17,8 @@ class Profile extends Component {
       allAssets: [],
       inProgress: this.props.utilState.callInProgress,
       createAssetStatus: {},
-      withdrawStatus:{}
+      withdrawStatus:{},
+      registerStatus: {}
     };
     this.account = {from: this.props.accounts[0]};
   }
@@ -45,16 +46,35 @@ class Profile extends Component {
 
   createStore = async (e) => {
     e.preventDefault();
-
+    this.setState({
+      disableRegistration: true,
+      registerStatus: {
+        status: 'PENDING',
+        message: 'Please confirm the transaction in MetaMask'
+      }
+    })
     await this.contracts.Marketplace.methods.createStore(this.state.storeName).send(this.account)
       .then((data) => {
           this.props.callInProgress(true);
           // HasAccount set to true, update store
           this.props.hasAccount(true);
+          this.setState({
+            disableRegistration: true,
+            registerStatus: {
+              status: 'SUCCESS',
+              message: 'Registration successful'
+            }
+          })
       })
       .catch((error) => {
           this.props.hasAccount(false);
-          console.error(error);
+          this.setState({
+            disableRegistration: false,
+            registerStatus: {
+              status: 'ERROR',
+              message: error.message
+            }
+          })
       });
       this.props.callInProgress(false);
   }
@@ -231,18 +251,15 @@ class Profile extends Component {
                         />
                       </div>
                     ) : (
-                      <Notification>
-                        <h3>Register</h3>
-                        <p>Thank you for your application</p>
-                        <p>Your application is pending approval</p>
-                      </Notification>
+                      <RegistrationPending />
                     )}
                   </div>
                 ) : (
                   <Registration
-                    disabled={this.state.disabled}
+                    disabled={this.state.disableRegistration}
                     createStore={this.createStore}
                     storeNameUpdated={this.storeNameUpdated}
+                    registerStatus={this.state.registerStatus}
                   />
                 )}    
               </TabPanel>
