@@ -14,9 +14,11 @@ class Asset extends Component {
       buyStatus: {}
     }
   }
+
   componentWillMount() {
     this.getAssetDetails();
   }
+
   getAssetDetails = async () => {
     const assetId = this.props.params.assetId;
     const data = await this.contracts.Marketplace.methods.asset(assetId).call();
@@ -34,6 +36,7 @@ class Asset extends Component {
       assetDetails
     })
   }
+
   buyNow = async (assetDetails) => {
     this.setState({
       disabled: true,
@@ -69,6 +72,7 @@ class Asset extends Component {
       return error;
     });
   }
+  
   render() {
     return(
       <main className="container">

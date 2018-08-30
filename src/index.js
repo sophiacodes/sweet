@@ -6,7 +6,8 @@ import { DrizzleProvider } from 'drizzle-react'
 import { LoadingContainer } from 'drizzle-react-components'
 
 // Pages
-import App from './App'
+// import App from './App'
+import AppContainer from './AppContainer'
 import HomeContainer from './pages/home/HomeContainer'
 import ProfileContainer from './pages/profile/ProfileContainer'
 import AdminContainer from './pages/admin/AdminContainer'
@@ -24,7 +25,7 @@ ReactDOM.render((
     <DrizzleProvider options={drizzleOptions} store={store}>
       <LoadingContainer>
         <Router history={history}>
-          <Route path="/" component={App}>
+          <Route path="/" component={AppContainer}>
             <IndexRoute component={HomeContainer} />
             <Route path="/profile" component={ProfileContainer} />
             <Route path="/admin" component={AdminContainer} />

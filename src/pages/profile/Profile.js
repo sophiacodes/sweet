@@ -25,7 +25,6 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    this.checkAdminRights();
     this.getSeller();
   }
 
@@ -36,13 +35,6 @@ class Profile extends Component {
       allAssets: nextProps.profileState.allAssets,
       inProgress: nextProps.utilState.callInProgress
     });
-  }
-
-  checkAdminRights = async () => {
-    const admin = await this.contracts.Marketplace.methods.admin().call(this.account);
-    if (admin && admin === this.props.accounts[0]) {
-      this.props.router.push('/admin');
-    }
   }
 
   createStore = async (e) => {

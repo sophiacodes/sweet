@@ -14,26 +14,14 @@ class Admin extends Component {
     }
   }
 
-  // *** TODO: DETECT CHANGE WHEN WALLET ADDRESS CHANGES ***
-
   componentWillMount() {
-    this.checkAdminRights();
+    this.getAllStores();
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       storeArr: nextProps.marketplaceState.allStores
     });
-  }
-
-  checkAdminRights = async () => {
-    const admin = await this.contracts.Marketplace.methods.admin().call();
-    if (admin && admin !== this.props.accounts[0]) {
-      this.props.router.push('/profile');
-    } else {
-      // Get all stores for approval
-      this.getAllStores();
-    }
   }
 
   getAllStores = async () => {

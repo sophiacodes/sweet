@@ -12,9 +12,11 @@ class Marketplace extends Component {
       allAssets: []
     }
   }
+
   componentWillMount() {
     this.getAllStores();
   }
+  
   getAllStores = async () => {
     const getStores = await this.contracts.Marketplace.methods.getAllStores().call();
     let allStores = [];
@@ -33,6 +35,7 @@ class Marketplace extends Component {
       allStores
     })
   }
+
   render() {
     return(
       <main className="container">
