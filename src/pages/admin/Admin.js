@@ -40,7 +40,6 @@ class Admin extends Component {
       };
       allStores = [ ...allStores, store ];
     }
-
     // Update to redux-store
     this.props.getStores(allStores);
   }
@@ -62,9 +61,9 @@ class Admin extends Component {
     })
     await this.contracts.Marketplace.methods.approveApplication(storeDetails.owner).send()
     .then((data) => {
-      const approvedStore = {approved: true, name: storeDetails.name, owner: storeDetails.owner, storeId: storeDetails.storeId};
-      const addStore = [...this.state.storeArr, approvedStore];
-      this.props.getStores(addStore);
+      // const approvedStore = {approved: true, name: storeDetails.name, owner: storeDetails.owner, storeId: storeDetails.storeId};
+      // const addStore = [...this.state.storeArr, approvedStore];
+      // // this.props.getStores(addStore);
       this.setState({
         disableApproval: false,
         approvalStatus: {
