@@ -7,6 +7,7 @@ import marketplaceSaga from '../src/pages/marketplace/MarketplaceSagaActions'
 import assetSaga from '../src/pages/asset/AssetSagaActions'
 import storefrontSaga from '../src/pages/store/StorefrontSagaActions'
 import utilSaga from '../src/util/utilSagaActions'
+import appSaga from './AppSagaActions'
 
 export default function* root() {
   yield all([
@@ -17,7 +18,8 @@ export default function* root() {
     fork(marketplaceSaga),
     fork(assetSaga),
     fork(storefrontSaga),
-    fork(utilSaga)
+    fork(utilSaga),
+    fork(appSaga)
   ])
 }
 

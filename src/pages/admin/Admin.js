@@ -14,26 +14,14 @@ class Admin extends Component {
     }
   }
 
-  // *** TODO: DETECT CHANGE WHEN WALLET ADDRESS CHANGES ***
-
   componentWillMount() {
-    this.checkAdminRights();
+    this.getAllStores();
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       storeArr: nextProps.marketplaceState.allStores
     });
-  }
-
-  checkAdminRights = async () => {
-    const admin = await this.contracts.Marketplace.methods.admin().call();
-    if (admin && admin !== this.props.accounts[0]) {
-      this.props.router.push('/profile');
-    } else {
-      // Get all stores for approval
-      this.getAllStores();
-    }
   }
 
   getAllStores = async () => {
@@ -52,7 +40,6 @@ class Admin extends Component {
       };
       allStores = [ ...allStores, store ];
     }
-
     // Update to redux-store
     this.props.getStores(allStores);
   }
@@ -74,9 +61,9 @@ class Admin extends Component {
     })
     await this.contracts.Marketplace.methods.approveApplication(storeDetails.owner).send()
     .then((data) => {
-      const approvedStore = {approved: true, name: storeDetails.name, owner: storeDetails.owner, storeId: storeDetails.storeId};
-      const addStore = [...this.state.storeArr, approvedStore];
-      this.props.getStores(addStore);
+      // const approvedStore = {approved: true, name: storeDetails.name, owner: storeDetails.owner, storeId: storeDetails.storeId};
+      // const addStore = [...this.state.storeArr, approvedStore];
+      // // this.props.getStores(addStore);
       this.setState({
         disableApproval: false,
         approvalStatus: {

@@ -9,11 +9,13 @@ class Storefront extends Component {
     this.contracts = context.drizzle.contracts;
     this.storeId = this.props.params.storeId;
     this.state = {
-      allAssets: []
+      allAssets: [],
+      store: {}
     }
   }
 
   componentWillMount() {
+    this.getStoreDetails();
     this.getAssets();
   }
 
@@ -45,7 +47,7 @@ class Storefront extends Component {
     const data = await this.contracts.Marketplace.methods.store(storeOwnerAddress).call();
     const store = {
       approved: data.approved,
-      balance: data.balance,
+      // balance: data.balance,
       name: data.name,
       owner: data.owner,
       storeId: data.storeId
@@ -60,10 +62,11 @@ class Storefront extends Component {
       <main className="container">
         <div className="pure-g">
           <div className="pure-u-1-1">
-            <h2 className="page-title">Storefront</h2>
+            <h2 className="page-title">{this.state.store.name || 'Storefront'}</h2>
           </div>
           <div className="pure-u-1-1 featured">
             <StoreAssets 
+              store={this.state.store}
               allAssets={this.state.allAssets}
             />
           </div>

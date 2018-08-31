@@ -7,6 +7,7 @@ import CreateAsset from '../../components/marketplace/create-asset/CreateAsset'
 import ActiveListings from '../../components/marketplace/active-listings/Active-Listings'
 import SoldListings from '../../components/marketplace/sold-listings/Sold-Listings'
 import ProfileBalance from '../../components/user/profile-balance/ProfileBalance'
+import BoughtAssets from '../../components/marketplace/bought-assets/BoughtAssets'
 
 class Profile extends Component {
   constructor(props, context) {
@@ -24,7 +25,6 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    this.checkAdminRights();
     this.getSeller();
   }
 
@@ -35,13 +35,6 @@ class Profile extends Component {
       allAssets: nextProps.profileState.allAssets,
       inProgress: nextProps.utilState.callInProgress
     });
-  }
-
-  checkAdminRights = async () => {
-    const admin = await this.contracts.Marketplace.methods.admin().call(this.account);
-    if (admin && admin === this.props.accounts[0]) {
-      this.props.router.push('/admin');
-    }
   }
 
   createStore = async (e) => {
@@ -274,8 +267,7 @@ class Profile extends Component {
                 />
               </TabPanel>
               <TabPanel>
-                <h2>TODO</h2>
-                {/* <p>List of assets bought by the address with details of transaction etc</p> */}
+                <BoughtAssets />
               </TabPanel>
             </Tabs>
           </div>
