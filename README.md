@@ -8,7 +8,7 @@ A marketplace smart contract with basic transactions. Admin is the owner of the 
 
 Ganache recommended, download [Ganache](https://truffleframework.com/ganache) and launch the application. This will generate a blockchain running locally on port 7545.
 
-Or you can use the [Ganache CLI](https://github.com/trufflesuite/ganache-cli)  by `npm install -g ganache-cli` (if not already installed) and then `ganache-cli <options>`, which will run on port 8545. 
+Or you can use [Ganache CLI](https://github.com/trufflesuite/ganache-cli) by `npm install -g ganache-cli` (if not already installed) and then `ganache-cli <options>`, which will run on port 8545. 
 
 ## Setting up the dApp
 
@@ -43,6 +43,8 @@ The dApp will automagically open in a new tab in your browser on `http://localho
 ![alt text](https://github.com/sophiacodes/sweet/blob/master/public/images/home-page-screenshot.png)
 
 ![alt text](https://github.com/sophiacodes/sweet/blob/master/public/images/asset-page-screenshot.png)
+
+By default in MetaMask the first account will belong to admin, you'll need to import other accounts who will be buyers/sellers. 
 
 ## Additional information
 
