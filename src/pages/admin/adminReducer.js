@@ -1,7 +1,7 @@
 const adminReducer = (state = {}, action) => {
     let newState = state;
     switch (action.type) {
-      case 'APPROVE': 
+      case 'APPROVE':
         newState = { ...state, ...action.payload };
         break;
       default: 

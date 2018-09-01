@@ -1,13 +1,13 @@
 import { all, fork } from 'redux-saga/effects'
 import { drizzleSagas } from 'drizzle'
-import adminSaga from '../src/pages/admin/AdminSagaActions'
-import profileSaga from '../src/pages/profile/ProfileSagaActions'
-import homeSaga from '../src/pages/home/HomeSagaActions'
-import marketplaceSaga from '../src/pages/marketplace/MarketplaceSagaActions'
-import assetSaga from '../src/pages/asset/AssetSagaActions'
-import storefrontSaga from '../src/pages/store/StorefrontSagaActions'
-import utilSaga from '../src/util/utilSagaActions'
-import appSaga from './AppSagaActions'
+import adminSaga from '../src/pages/admin/AdminSaga'
+import profileSaga from '../src/pages/profile/ProfileSaga'
+import homeSaga from '../src/pages/home/HomeSaga'
+import marketplaceSaga from '../src/pages/marketplace/MarketplaceSaga'
+import assetSaga from '../src/pages/asset/AssetSaga'
+import storefrontSaga from '../src/pages/store/StorefrontSaga'
+import utilSaga from '../src/util/utilSaga'
+import appSaga from './AppSaga'
 
 export default function* root() {
   yield all([

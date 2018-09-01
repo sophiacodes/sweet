@@ -40,7 +40,7 @@ npm start
 ```
 The dApp will automagically open in a new tab in your browser on `http://localhost:3000`
 
-![alt text](https://github.com/sophiacodes/sweet/blob/master/public/images/home-page-screenshot.png)
+![alt text](https://github.com/sophiacodes/sweet/blob/master/public/images/home-page-screenshot-2.png)
 
 ![alt text](https://github.com/sophiacodes/sweet/blob/master/public/images/asset-page-screenshot.png)
 
