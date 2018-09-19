@@ -47,9 +47,9 @@ npm start
 ```
 The dApp will automagically open in a new tab in your browser on `http://localhost:3000`
 
-![alt text](https://github.com/sophiacodes/sweet/blob/master/public/images/home-page-screenshot-2.png)
+![alt text](https://github.com/sophiacodes/sweet/blob/master/screenshot-home-page.png)
 
-![alt text](https://github.com/sophiacodes/sweet/blob/master/public/images/asset-page-screenshot.png)
+![alt text](https://github.com/sophiacodes/sweet/blob/master/screenshot-asset-page.png)
 
 By default in MetaMask the first account will belong to admin, you'll need to import other accounts who will be buyers/sellers. 
 
