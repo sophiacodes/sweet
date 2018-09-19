@@ -8,7 +8,8 @@ const mapStateToProps = state => {
     drizzleStatus: state.drizzleStatus,
     Marketplace: state.contracts.Marketplace,
     profileState: state.profile,
-    utilState: state.util
+    utilState: state.util,
+    ipfs: state.app.ipfs
   }
 }
 

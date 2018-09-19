@@ -4,9 +4,8 @@ import PropTypes from 'prop-types'
 import AssetDetails from  '../../components/marketplace/asset-details/Asset-Details'
 
 class Asset extends Component {
-  constructor(props, context, { authData }) {
+  constructor(props, context) {
     super(props)
-    authData = this.props
     this.contracts = context.drizzle.contracts;
     this.state = {
       assetDetails: {},
@@ -23,18 +22,25 @@ class Asset extends Component {
     const assetId = this.props.params.assetId;
     const data = await this.contracts.Marketplace.methods.asset(assetId).call();
     const toEtherAssetPriceConversion = parseFloat(data.price) / 1000000000000000000;
-    const assetDetails = {
-      storeOwner: data.storeOwner,
-      name: data.name,
-      description: data.description,
-      price: parseFloat(toEtherAssetPriceConversion).toFixed(3),
-      assetId: data.assetId,
-      buyer: data.buyer,
-      sold: data.sold
-    };
-    this.setState({
-      assetDetails
-    })
+
+    this.props.ipfs.cat(data.descriptionHash, (err, desc) => {
+      if (err) {
+        return console.log(err);
+      }
+      const description = Buffer.from(desc);
+      const assetDetails = {
+        storeOwner: data.storeOwner,
+        name: data.name,
+        description: description.toString('utf8'),
+        price: parseFloat(toEtherAssetPriceConversion).toFixed(3),
+        assetId: data.assetId,
+        buyer: data.buyer,
+        sold: data.sold
+      };
+      this.setState({
+        assetDetails
+      })
+    });
   }
 
   buyNow = async (assetDetails) => {

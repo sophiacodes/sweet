@@ -1,5 +1,7 @@
 import { drizzleConnect } from 'drizzle-react'
-import Admin from './Admin';
+import { bindActionCreators } from 'redux'
+import Admin from './Admin'
+import { getStores } from './AdminActions'
 
 // May still need this even with data function to refresh component on updates for this contract.
 const mapStateToProps = state => {
@@ -12,12 +14,9 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    // approve: (id) => { dispatch({ type: "APPROVE_APPLICATION", id })},
-    getStores: (allStores) => { dispatch({ type: "GET_ALL_STORES", allStores })}
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators({ getStores }, dispatch)
+});
 
 const AdminContainer = drizzleConnect(Admin, mapStateToProps, mapDispatchToProps);
 

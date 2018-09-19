@@ -73,18 +73,31 @@ class Profile extends Component {
   }
 
   createAsset = async (e) => {
+    // let assetDescriptionHash = '';
     this.setState({
       disableCreateAsset: true,
       createAssetStatus: {}
-    })
-    const { assetName, assetDescription, assetPrice, assetAddress } = e;
+    });
+    const { assetDescription } = e;
+    const descriptionBuffer = Buffer.from(assetDescription, 'utf-8');
+    await this.props.ipfs.add(descriptionBuffer, (err, hash) => {
+      if (err) {
+        return console.log(err);
+      }
+      this.saveAsset(e, hash[0].hash)
+    });
+  }
+
+  saveAsset = async (e, assetDescriptionHash) => {
+
+    const { assetName, assetPrice, assetAddress } = e;
     const toWeiAssetPriceConversion = (parseFloat(assetPrice)) * 1000000000000000000;
-    await this.contracts.Marketplace.methods.createAsset(assetName, assetAddress, assetDescription, toWeiAssetPriceConversion).send()
+    await this.contracts.Marketplace.methods.createAsset(assetName, assetAddress, assetDescriptionHash, toWeiAssetPriceConversion).send()
     .then((data) => {
       const asset = {
         storeOwner: this.account,
         name: assetName,
-        description: assetDescription,
+        description: assetDescriptionHash,
         price: toWeiAssetPriceConversion,
         assetId: assetAddress,
         buyer: '0x0000000000000000000000000000000000000000',
@@ -112,7 +125,7 @@ class Profile extends Component {
           message: error.message
         }
       })
-    });
+    })
   }
 
   getStoreBalance = async () => {
@@ -157,12 +170,12 @@ class Profile extends Component {
     let allAssets = [];
     for (let i = 0; i < assetCount; i++) {
       const data = await this.contracts.Marketplace.methods.asset(i).call();
-      if (data.storeOwner === this.props.accounts[0]) {
+      if (data.storeOwner === this.props.accounts[0]) {console.log(data)
         const toEtherConversion = data.price / 1000000000000000000;
         const asset = {
           storeOwner: data.storeOwner,
           name: data.name,
-          description: data.description,
+          description: data.descriptionHash,
           price: parseFloat(toEtherConversion).toFixed(3),
           assetId: data.assetId,
           buyer: data.buyer,

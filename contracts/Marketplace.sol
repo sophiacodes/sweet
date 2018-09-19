@@ -28,7 +28,8 @@ contract Marketplace /* is Ownable */  {
         address storeOwner; // Seller
         address contractAddress; // Contract where the asset exists
         string name;
-        string description;
+        string descriptionHash; // IPFS description hash location
+        // string imageHash; // TODO: IPFS image hash location
         uint price;
         uint assetId;
         address buyer;
@@ -116,15 +117,15 @@ contract Marketplace /* is Ownable */  {
     /** @dev Creates an asset for a store, can only create asset if store exists and is approved 
       * @param _name Width of the rectangle.
       * @param _contractAddressOfAsset Height of the rectangle.
-      * @param _desc Description of the asset.
+      * @param _descriptionHash Description hash of the asset.
       * @param _price Price of the asset.
       * @return bool Returns the status of the asset created.
       */
-    function createAsset(string _name, address _contractAddressOfAsset, string _desc, uint _price) payable public returns (bool) {
+    function createAsset(string _name, address _contractAddressOfAsset, string _descriptionHash, uint _price) payable public returns (bool) {
         bool createdAsset = false;
 
         if (store[msg.sender].owner == msg.sender && store[msg.sender].approved == true) {
-            asset[assetIdCounter] = Asset(msg.sender, _contractAddressOfAsset, _name, _desc, _price, assetIdCounter, 0x0000000000000000000000000000000000000000, false);
+            asset[assetIdCounter] = Asset(msg.sender, _contractAddressOfAsset, _name, _descriptionHash, _price, assetIdCounter, 0x0000000000000000000000000000000000000000, false);
             assetIdCounter++;
             createdAsset = true;
         }
@@ -140,17 +141,17 @@ contract Marketplace /* is Ownable */  {
     
     /** @dev Updates asset details, like name, description and price only
       * @param _name An update of the name of the asset.
-      * @param _desc An update of the description of the asset.
+      * @param _descriptionHash An update of the description of the asset.
       * @param _price An update of the price of the asset.
       * @param _assetId Id of the asset that will be updated.
       * @return bool Returns status of updated asset.
       */
-    function updateAsset(string _name, string _desc, uint _price, uint _assetId) public returns (bool) {
+    function updateAsset(string _name, string _descriptionHash, uint _price, uint _assetId) public returns (bool) {
         bool assetUpdated = false;
         
         if (store[msg.sender].owner == msg.sender && asset[_assetId].storeOwner == msg.sender) {
             asset[_assetId].name = _name;
-            asset[_assetId].description = _desc;
+            asset[_assetId].descriptionHash = _descriptionHash;
             asset[_assetId].price = _price;
             assetUpdated = true;
         }
