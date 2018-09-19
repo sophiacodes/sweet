@@ -8,9 +8,16 @@ A marketplace smart contract with basic transactions. Admin is the owner of the 
 
 Ganache recommended, download [Ganache](https://truffleframework.com/ganache) and launch the application. This will generate a blockchain running locally on port 7545.
 
-Or you can use [Ganache CLI](https://github.com/trufflesuite/ganache-cli) by `npm install -g ganache-cli` (if not already installed) and then `ganache-cli <options>`, which will run on port 8545. 
+Or you can use [Ganache CLI](https://github.com/trufflesuite/ganache-cli) by `npm install -g ganache-cli` (if not already installed) and then `ganache-cli <options>`, which will run on port 8545.
 
 ## Setting up the dApp
+
+Install [IPFS](https://docs.ipfs.io/introduction/install/)
+
+```bash
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]' && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]" && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]' && ipfs daemon
+```
+In a new terminal window, do the following:
 
 ```bash
 git clone git@github.com:sophiacodes/sweet.git

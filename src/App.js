@@ -16,10 +16,20 @@ import './css/work-sans.css'
 import './css/pure-min.css'
 import './App.css'
 
+// const IPFS = require('ipfs-api')
+
 class App extends Component {
+  // static defaultProps = {
+  //   ipfs: new IPFS({ host: 'localhost', port: 5001, protocol: 'http' })
+  // };
+
   constructor(props, context) {
     super(props)
     this.contracts = context.drizzle.contracts;
+  }
+
+  componentDidMount() {
+    // this.props.setIPFS(this.props.ipfs);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,12 +41,12 @@ class App extends Component {
     const admin = await this.contracts.Marketplace.methods.admin().call();
     if (admin && admin === account) {
       if (this.props.location.pathname === '/profile') {
-        this.props.router.push('/admin');
+        this.props.router.push('/admin')
       }
     } else {
       // If user is in admin page and not admin direct to profile page
       if (this.props.location.pathname === '/admin') {
-        this.props.router.push('/profile');
+        this.props.router.push('/profile')
       }
     }
   }
