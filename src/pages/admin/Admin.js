@@ -15,12 +15,14 @@ class Admin extends Component {
   }
 
   componentWillMount() {
+    this.props.messageStatus({})
     this.getAllStores();
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      storeArr: nextProps.marketplaceState.allStores
+      storeArr: nextProps.marketplaceState.allStores,
+      approvalStatus: nextProps.message || {}
     });
   }
 
@@ -53,11 +55,11 @@ class Admin extends Component {
 
   approveApplication = async (storeDetails) => {
     this.setState({
-      disableApproval: true,
-      approvalStatus: {
-        status: 'PENDING',
-        message: 'Approval pending, please confirm the transaction in MetaMask'
-      }
+      disableApproval: true
+    })
+    this.props.messageStatus({
+      status: 'PENDING',
+      message: 'Approval pending, please confirm the transaction in MetaMask'
     })
     await this.contracts.Marketplace.methods.approveApplication(storeDetails.owner).send()
     .then((data) => {
@@ -65,11 +67,11 @@ class Admin extends Component {
       // const addStore = [...this.state.storeArr, approvedStore];
       // // this.props.getStores(addStore);
       this.setState({
-        disableApproval: false,
-        approvalStatus: {
-          status: 'SUCCESS',
-          message: 'Approval successful'
-        }
+        disableApproval: false
+      })
+      this.props.messageStatus({
+        status: 'SUCCESS',
+        message: 'Approval successful'
       })
       return data;
     })
@@ -79,11 +81,11 @@ class Admin extends Component {
     })
     .catch((error) => {
       this.setState({
-        disableApproval: false,
-        approvalStatus: {
-          status: 'ERROR',
-          message: error.message
-        }
+        disableApproval: false
+      })
+      this.props.messageStatus({
+        status: 'ERROR',
+        message: error.message
       })
       return error;
     });
@@ -102,9 +104,6 @@ class Admin extends Component {
               </Notification>
             ) : (
               <div>
-                {/* <ContractBalance
-                  balance={this.state.contractBalance}
-                /> */}
                 <MarketplaceApprovals
                   approveApplication={this.approveApplication} 
                   allStores={this.state.storeArr}
