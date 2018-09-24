@@ -54,7 +54,7 @@ contract('Marketplace', function(accounts) {
     it("...should not be able to create asset without store being approved", function() {
         return Marketplace.deployed().then(function(instance) {
             marketplaceInstance = instance;
-            return marketplaceInstance.createAsset('Asset Name', 0x4B0897b0513fdC7C541B6d9D7E929C4e5364D2dB, 'Asset Decription', 50, {from: accounts[1]});
+            return marketplaceInstance.createAsset('Asset Name', 0x4B0897b0513fdC7C541B6d9D7E929C4e5364D2dB, 'Asset Decription Hash', 50, {from: accounts[1]});
         }).then(function() {
             return marketplaceInstance.assetIdCounter.call();
         }).then(function(output) {

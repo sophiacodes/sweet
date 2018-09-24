@@ -16,24 +16,15 @@ import './css/work-sans.css'
 import './css/pure-min.css'
 import './App.css'
 
-// const IPFS = require('ipfs-api')
-
 class App extends Component {
-  // static defaultProps = {
-  //   ipfs: new IPFS({ host: 'localhost', port: 5001, protocol: 'http' })
-  // };
 
   constructor(props, context) {
     super(props)
     this.contracts = context.drizzle.contracts;
   }
 
-  componentDidMount() {
-    // this.props.setIPFS(this.props.ipfs);
-  }
-
   componentWillReceiveProps(nextProps) {
-    // *** DETECT CHANGE WHEN WALLET ADDRESS CHANGES ***
+    /*** DETECT WHEN WALLET ADDRESS CHANGES ***/
     this.checkAdminRights(nextProps.accounts[0])
   }
 

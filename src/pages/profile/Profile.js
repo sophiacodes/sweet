@@ -170,7 +170,7 @@ class Profile extends Component {
     let allAssets = [];
     for (let i = 0; i < assetCount; i++) {
       const data = await this.contracts.Marketplace.methods.asset(i).call();
-      if (data.storeOwner === this.props.accounts[0]) {console.log(data)
+      if (data.storeOwner === this.props.accounts[0]) {
         const toEtherConversion = data.price / 1000000000000000000;
         const asset = {
           storeOwner: data.storeOwner,
