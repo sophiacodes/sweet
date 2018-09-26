@@ -1,17 +1,36 @@
-import { put, takeLatest } from 'redux-saga/effects'
+import { put, takeLatest, call } from 'redux-saga/effects'
 
-export function * approveApplication(id) {
-    yield put({type: 'APPROVE', payload: id})
-    yield takeLatest('GET_ALL_STORES', getAllStores)
-}
-
-export function * getAllStores(allStores) {
-    yield put({type: 'ALL_STORES', payload: allStores})
+export function * fetchAllStoresAsync(contract) {
+  try {
+    let allStores = []
+    const data = yield call(() => {
+        return contract.drizzle.Marketplace.methods.getAllStores().call()
+      }
+    )
+    for (let storeAddress of data) {
+      const store = yield call(() => {
+          return contract.drizzle.Marketplace.methods.store(storeAddress).call()
+        }
+      )
+      const date = new Date(store.timestamp * 1000)
+      const dateFormatted = store.timestamp === '0' ? '-' : date.toString()
+      const storeDetails = {
+        name: store.name,
+        owner: store.owner,
+        storeId: store.storeId,
+        approved: store.approved,
+        timestamp: dateFormatted
+      }
+      allStores = [ ...allStores, storeDetails ]
+    }
+    yield put({ type: 'ALL_STORES', payload: { allStores }})
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 function * marketplaceSaga() {
-    // yield takeLatest('APPROVE_APPLICATION', approveApplication)
-    // yield takeLatest('GET_ALL_STORES', getAllStores)
+  yield takeLatest('FETCH_ALL_STORES', fetchAllStoresAsync)
 }
 
 export default marketplaceSaga
