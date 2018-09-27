@@ -5,7 +5,7 @@
 
 # build
 /build/contracts
-
+/build_webpack
 # misc
 .DS_Store
 .env.local

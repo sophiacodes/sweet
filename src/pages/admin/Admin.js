@@ -4,93 +4,45 @@ import Notification from '../../../src/components/core/notification/Notification
 import MarketplaceApprovals from '../../../src/components/marketplace/marketplace-approvals/Marketplace-Approvals';
 
 class Admin extends Component {
+
   constructor(props, context) {
     super(props)
     this.contracts = context.drizzle.contracts;
     this.state = {
       allStores: [],
-      contractBalance: 0,
       approvalStatus: {}
     }
   }
 
   componentWillMount() {
     this.props.messageStatus({})
-    // this.getAllStores();
     this.props.fetchAllStores(this.contracts)
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       allStores: nextProps.allStores || [],
-      approvalStatus: nextProps.message || {}
-    });
+      approvalStatus: nextProps.message || {},
+      disableApproval: (nextProps.status === 'SUCCESS') || false
+    })
+    if (nextProps.allStores !== undefined && this.state.storeToApprove !== undefined) {
+      for (const value of nextProps.allStores) {
+        if ((value.owner === this.state.storeToApprove.owner) && !value.approved) {
+          this.props.fetchAllStores(this.contracts)
+          // TODO: Need to handle the updating of the button while fetching
+        }
+      }
+    }
   }
 
-  // getAllStores = async () => {
-  //   const getStores = await this.contracts.Marketplace.methods.getAllStores().call();
-  //   let allStores = [];
-  //   for (let i = 0; i < getStores.length; i++) {
-  //     const data = await this.contracts.Marketplace.methods.store(getStores[i]).call();
-  //     const date = new Date(data.timestamp * 1000);
-  //     const dateFormatted = data.timestamp === '0' ? '-' : date.toString();
-  //     const store = {
-  //       approved: data.approved,
-  //       name: data.name,
-  //       owner: data.owner,
-  //       storeId: data.storeId,
-  //       timestamp: dateFormatted
-  //     };
-  //     allStores = [ ...allStores, store ];
-  //   }
-  //   // Update to redux-store
-  //   this.props.getStores(allStores);
-  // }
-
-  getContractBalance = async () => {
-    const contractBalance = await this.contracts.Marketplace.methods.getBalance().call();
+  approveApplication = (storeDetails) => {
     this.setState({
-      contractBalance
-    });
-  }
-
-  approveApplication = async (storeDetails) => {
-    this.setState({
-      disableApproval: true
+      disableApproval: true,
+      storeToApprove: storeDetails
     })
-    this.props.messageStatus({
-      status: 'PENDING',
-      message: 'Approval pending, please confirm the transaction in MetaMask'
-    })
-    await this.contracts.Marketplace.methods.approveApplication(storeDetails.owner).send()
-    .then((data) => {
-      // const approvedStore = {approved: true, name: storeDetails.name, owner: storeDetails.owner, storeId: storeDetails.storeId};
-      // const addStore = [...this.state.allStores, approvedStore];
-      // // this.props.getStores(addStore);
-      this.setState({
-        disableApproval: false
-      })
-      this.props.messageStatus({
-        status: 'SUCCESS',
-        message: 'Approval successful'
-      })
-      return data;
-    })
-    .then((result) => {
-      // this.getAllStores();
-      this.props.fetchAllStores(this.contracts)
-      return result;
-    })
-    .catch((error) => {
-      this.setState({
-        disableApproval: false
-      })
-      this.props.messageStatus({
-        status: 'ERROR',
-        message: error.message
-      })
-      return error;
-    });
+    const { owner } = storeDetails
+    const { Marketplace } = this.contracts
+    this.props.approveStore( { owner, Marketplace } )
   }
 
   render() {

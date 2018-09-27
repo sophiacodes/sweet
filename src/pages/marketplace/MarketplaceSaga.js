@@ -4,12 +4,12 @@ export function * fetchAllStoresAsync(contract) {
   try {
     let allStores = []
     const data = yield call(() => {
-        return contract.drizzle.Marketplace.methods.getAllStores().call()
+        return contract.marketplaceContract.methods.getAllStores().call()
       }
     )
     for (let storeAddress of data) {
       const store = yield call(() => {
-          return contract.drizzle.Marketplace.methods.store(storeAddress).call()
+          return contract.marketplaceContract.methods.store(storeAddress).call()
         }
       )
       const date = new Date(store.timestamp * 1000)
