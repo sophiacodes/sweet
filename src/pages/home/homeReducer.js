@@ -1,10 +1,10 @@
 const homeReducer = (state = {}, action) => {
-    let newState = state;
-    switch (action.type) {
-      default: 
-        break;
-    }
-    return newState;
+  let newState = state;
+  switch (action.type) {
+    default: 
+      break;
   }
-  
-  export default homeReducer;
+  return newState;
+}
+
+export default homeReducer;

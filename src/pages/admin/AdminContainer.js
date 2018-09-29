@@ -13,8 +13,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({ fetchAllStores, messageStatus, approveStore }, dispatch)
-});
+})
 
-const AdminContainer = drizzleConnect(Admin, mapStateToProps, mapDispatchToProps);
+const AdminContainer = drizzleConnect(Admin, mapStateToProps, mapDispatchToProps)
 
 export default AdminContainer

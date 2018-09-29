@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Notification from '../../../src/components/core/notification/Notification'
+import Notification from '../../../src/components/common/notification/Notification'
 import MarketplaceApprovals from '../../../src/components/marketplace/marketplace-approvals/Marketplace-Approvals';
 
 class Admin extends Component {

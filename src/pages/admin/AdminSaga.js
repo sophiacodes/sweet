@@ -1,10 +1,5 @@
-import { put, takeLatest, call } from 'redux-saga/effects'
+import { put, takeEvery, call } from 'redux-saga/effects'
 import { messageStatus, fetchAllStores } from '../../actions'
-
-// export function * approveApplication(id) {
-//   yield put({ type: 'APPROVE', payload: id })
-//   // yield takeLatest('GET_ALL_STORES', getAllStores)
-// }
 
 export function * approveStore(processApplication) {
   const { marketplaceContract, storeAddress } = processApplication
@@ -40,9 +35,7 @@ export function * approveStore(processApplication) {
 }
 
 function * adminSaga() {
-  // yield takeLatest('APPROVE_APPLICATION', approveApplication)
-  yield takeLatest('APPROVE_STORE', approveStore)
-  // yield takeLatest('GET_ALL_STORES', getAllStores)
+  yield takeEvery('APPROVE_STORE', approveStore)
 }
 
 export default adminSaga

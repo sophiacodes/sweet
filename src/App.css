@@ -69,6 +69,8 @@ ul li:not(:last-child) {
   display: inline-block;
   font-family: "Work Sans Extra Light";
   font-size: 28px;
+  -webkit-box-shadow: 0 5px 20px rgba(0,0,0,.2);
+  box-shadow: 0 5px 20px rgba(0,0,0,.2);
 }
 
 .button:disabled{

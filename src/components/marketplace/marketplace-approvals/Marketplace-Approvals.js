@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import Notification from '../../core/notification/Notification'
+import Notification from '../../common/notification/Notification'
 import './marketplace-approvals.css'
 
 const Approved = (props) => {
@@ -115,11 +115,11 @@ class MarketplaceApprovals extends Component {
     let pendingApproval = [];
 
     if (typeof allStores !== 'undefined') {
-      for (let i = 0; i < allStores.length; i++) {
-        if (allStores[i].approved) {
-          approved = [...approved, allStores[i]];
+      for (const store of allStores) {
+        if (store.approved) {
+          approved = [...approved, store];
         } else {
-          pendingApproval = [...pendingApproval, allStores[i]]
+          pendingApproval = [...pendingApproval, store]
         }
       }
     }

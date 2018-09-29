@@ -1,6 +1,6 @@
 import React from  'react'
 import { Link } from 'react-router'
-import Notification from '../../core/notification/Notification'
+import Notification from '../../common/notification/Notification'
 import './featured-stores.css'
 
 const importAll = (r) => {

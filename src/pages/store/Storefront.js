@@ -47,7 +47,6 @@ class Storefront extends Component {
     const data = await this.contracts.Marketplace.methods.store(storeOwnerAddress).call();
     const store = {
       approved: data.approved,
-      // balance: data.balance,
       name: data.name,
       owner: data.owner,
       storeId: data.storeId

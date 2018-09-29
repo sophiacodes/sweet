@@ -1,5 +1,5 @@
 import React from 'react';
-import Notification from '../../core/notification/Notification'
+import Notification from '../../common/notification/Notification'
 import './registration-pending.css'
 
 const RegistrationPending = ({...props}) => {

@@ -7,7 +7,7 @@ export function * fetchAllStoresAsync(contract) {
         return contract.marketplaceContract.methods.getAllStores().call()
       }
     )
-    for (let storeAddress of data) {
+    for (const storeAddress of data) {
       const store = yield call(() => {
           return contract.marketplaceContract.methods.store(storeAddress).call()
         }
