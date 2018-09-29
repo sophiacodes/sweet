@@ -1,3 +1,5 @@
+![alt text](https://github.com/sophiacodes/sweet/blob/master/screenshot-logo.png)
+
 # Marketplace dApp
 
 ## What does it do?
