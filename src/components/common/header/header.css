@@ -2,6 +2,8 @@
     background-color: #000000;
     padding: 2em;
     text-align: center;
+    -webkit-box-shadow: 0 5px 20px rgba(0,0,0,.2);
+    box-shadow: 0 5px 20px rgba(0,0,0,.2);
 }
 .header h1 {
     font-size: 3em;

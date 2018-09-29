@@ -1,94 +1,48 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Notification from '../../../src/components/core/notification/Notification'
+import Notification from '../../../src/components/common/notification/Notification'
 import MarketplaceApprovals from '../../../src/components/marketplace/marketplace-approvals/Marketplace-Approvals';
 
 class Admin extends Component {
+
   constructor(props, context) {
     super(props)
     this.contracts = context.drizzle.contracts;
     this.state = {
-      storeArr: [],
-      contractBalance: 0,
+      allStores: [],
       approvalStatus: {}
     }
   }
 
   componentWillMount() {
     this.props.messageStatus({})
-    this.getAllStores();
+    this.props.fetchAllStores(this.contracts)
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      storeArr: nextProps.marketplaceState.allStores,
-      approvalStatus: nextProps.message || {}
-    });
-  }
-
-  getAllStores = async () => {
-    const getStores = await this.contracts.Marketplace.methods.getAllStores().call();
-    let allStores = [];
-    for (let i = 0; i < getStores.length; i++) {
-      const data = await this.contracts.Marketplace.methods.store(getStores[i]).call();
-      const date = new Date(data.timestamp * 1000);
-      const dateFormatted = data.timestamp === '0' ? '-' : date.toString();
-      const store = {
-        approved: data.approved,
-        name: data.name,
-        owner: data.owner,
-        storeId: data.storeId,
-        timestamp: dateFormatted
-      };
-      allStores = [ ...allStores, store ];
+      allStores: nextProps.allStores || [],
+      approvalStatus: nextProps.message || {},
+      disableApproval: (nextProps.status === 'SUCCESS') || false
+    })
+    if (nextProps.allStores !== undefined && this.state.storeToApprove !== undefined) {
+      for (const value of nextProps.allStores) {
+        if ((value.owner === this.state.storeToApprove.owner) && !value.approved) {
+          this.props.fetchAllStores(this.contracts)
+          // TODO: Need to handle the updating of the button while fetching
+        }
+      }
     }
-    // Update to redux-store
-    this.props.getStores(allStores);
   }
 
-  getContractBalance = async () => {
-    const contractBalance = await this.contracts.Marketplace.methods.getBalance().call();
+  approveApplication = (storeDetails) => {
     this.setState({
-      contractBalance
-    });
-  }
-
-  approveApplication = async (storeDetails) => {
-    this.setState({
-      disableApproval: true
+      disableApproval: true,
+      storeToApprove: storeDetails
     })
-    this.props.messageStatus({
-      status: 'PENDING',
-      message: 'Approval pending, please confirm the transaction in MetaMask'
-    })
-    await this.contracts.Marketplace.methods.approveApplication(storeDetails.owner).send()
-    .then((data) => {
-      // const approvedStore = {approved: true, name: storeDetails.name, owner: storeDetails.owner, storeId: storeDetails.storeId};
-      // const addStore = [...this.state.storeArr, approvedStore];
-      // // this.props.getStores(addStore);
-      this.setState({
-        disableApproval: false
-      })
-      this.props.messageStatus({
-        status: 'SUCCESS',
-        message: 'Approval successful'
-      })
-      return data;
-    })
-    .then((result) => {
-      this.getAllStores();
-      return result;
-    })
-    .catch((error) => {
-      this.setState({
-        disableApproval: false
-      })
-      this.props.messageStatus({
-        status: 'ERROR',
-        message: error.message
-      })
-      return error;
-    });
+    const { owner } = storeDetails
+    const { Marketplace } = this.contracts
+    this.props.approveStore( { owner, Marketplace } )
   }
 
   render() {
@@ -97,7 +51,7 @@ class Admin extends Component {
         <div className="pure-g">
           <div className="pure-u-1-1">
             <h2 className="page-title">Admin</h2>
-            {(typeof this.state.storeArr !== 'undefined' && this.state.storeArr.length === 0) ? (
+            {(typeof this.state.allStores !== 'undefined' && this.state.allStores.length === 0) ? (
               <Notification>
                 <p><strong>No stores available</strong></p>
                 <p>(When stores are created they will appear here for approval)</p>
@@ -106,7 +60,7 @@ class Admin extends Component {
               <div>
                 <MarketplaceApprovals
                   approveApplication={this.approveApplication} 
-                  allStores={this.state.storeArr}
+                  allStores={this.state.allStores}
                   disableApproval={this.state.disableApproval}
                   approvalStatus={this.state.approvalStatus}
                 />

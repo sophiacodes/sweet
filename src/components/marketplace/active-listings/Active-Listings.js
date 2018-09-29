@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Notification from '../../core/notification/Notification'
+import Notification from '../../common/notification/Notification'
 import './active-listings.css';
 
 class ActiveListings extends Component {

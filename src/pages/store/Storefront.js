@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import StoreAssets from '../../components/marketplace/store-assets/Store-Assets'
 
 class Storefront extends Component {
-  constructor(props, context, { authData }) {
+  
+  constructor(props, context) {
     super(props)
-    authData = this.props
-    this.contracts = context.drizzle.contracts;
-    this.storeId = this.props.params.storeId;
+    this.contracts = context.drizzle.contracts
+    this.storeId = this.props.params.storeId
     this.state = {
       allAssets: [],
       store: {}
@@ -47,7 +47,6 @@ class Storefront extends Component {
     const data = await this.contracts.Marketplace.methods.store(storeOwnerAddress).call();
     const store = {
       approved: data.approved,
-      // balance: data.balance,
       name: data.name,
       owner: data.owner,
       storeId: data.storeId

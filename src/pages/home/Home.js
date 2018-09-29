@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import FeaturedStores from '../../components/marketplace/featured-stores/Featured-Stores'
 
 class Home extends Component {
+  
   constructor(props, context) {
     super(props)
     this.contracts = context.drizzle.contracts;
@@ -12,28 +13,15 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    this.getAllStores();
+    this.props.fetchAllStores(this.contracts)
   }
 
-  getAllStores = async () => {
-    const getStores = await this.contracts.Marketplace.methods.getAllStores().call();
-    let allStores = [];
-    for (let i = 0; i < getStores.length; i++) {
-      const data = await this.contracts.Marketplace.methods.store(getStores[i]).call();
-      const store = {
-        approved: data.approved,
-        balance: data.balance,
-        name: data.name,
-        owner: data.owner,
-        storeId: data.storeId
-      };
-      allStores = [ ...allStores, store ];
-    }
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      allStores
+        allStores: nextProps.allStores || []
     })
   }
-  
+
   render() {
     return (
       <main className="container">

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Header from './components/core/header/Header'
-import Hero from './components/core/hero/Hero'
-import Navigation from './components/core/navigation/Navigation'
-import Footer from './components/core/footer/Footer'
+import Header from './components/common/header/Header'
+import Hero from './components/common/hero/Hero'
+import Navigation from './components/common/navigation/Navigation'
+import Footer from './components/common/footer/Footer'
 // Styles
 import './css/reset.css'
 import './css/oswald.css'
