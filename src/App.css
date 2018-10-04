@@ -207,7 +207,6 @@ ul li:not(:last-child) {
 }
 .tab-list li {
   display: inline-block;
-  float: left;
   margin-right: 40px;
   padding-bottom: 20px;
 }

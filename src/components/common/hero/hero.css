@@ -1,5 +1,7 @@
 .hero {
     background-color: #2f363d;
+    background-image: url(../../../../public/images/cart.png);
+    background-size: 3%;
     color: #ffffff;
     text-align: center;
     font-family: 'Work Sans Extra Light' !important;
