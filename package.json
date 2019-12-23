@@ -18,7 +18,7 @@
     "dotenv": "8.2.0",
     "drizzle": "^1.2.2",
     "drizzle-react": "^1.1.1",
-    "drizzle-react-components": "^1.2.0",
+    "drizzle-react-components": "^1.4.0",
     "eslint": "4.18.2",
     "eslint-config-react-app": "^0.5.0",
     "eslint-loader": "1.6.0",
