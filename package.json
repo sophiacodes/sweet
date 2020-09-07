@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "eth-block-tracker-es5": "^2.3.2",
-    "ipfs-api": "^24.0.1",
+    "ipfs-api": "^26.1.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.1.2",
