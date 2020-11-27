@@ -45,7 +45,7 @@
     "strip-ansi": "6.0.0",
     "style-loader": "0.13.1",
     "truffle-contract": "^4.0.31",
-    "truffle-hdwallet-provider": "0.0.3",
+    "truffle-hdwallet-provider": "1.0.17",
     "url-loader": "^4.1.1",
     "webpack": "1.15.0",
     "webpack-dev-server": "^3.10.1",
